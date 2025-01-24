@@ -5,3 +5,4 @@ __pycache__/
 
 # ignore virtual environment folder
 venv/
+.idea/

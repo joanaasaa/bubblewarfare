@@ -76,7 +76,6 @@ while running:
                 padding + cannon_width, player_1_y + cannon_height / 2, 0, 0
             )
         else:
-            player_1_bubble.set_visible()
             player_1_bubble.increase_radius()
             player_1_bubble.draw(screen)
     else:
@@ -94,7 +93,6 @@ while running:
                 0,
             )
         else:
-            player_2_bubble.set_visible()
             player_2_bubble.increase_radius()
             player_2_bubble.draw(screen)
     else:

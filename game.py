@@ -1,23 +1,6 @@
 import pygame
 
 
-# x
-# 0
-# +
-# v
-# 0
-# x
-# t
-# +
-# 1
-# 2
-# a
-# x
-# t
-# 2
-# v² = u² + 2as.
-# s = ut
-
 class Bubble:
     def __init__(self, init_x, init_y, vel_x, vel_y):
         self.player_pos = pygame.Vector2(init_x, init_y)
@@ -35,13 +18,14 @@ class Bubble:
         self.draw()
 
     def increase_radius(self):
-        self.radius += 10/self.radius
+        self.radius += 10 / self.radius
 
     def set_visible(self):
         self.visible = True
 
     def set_x_vel(self, new_x_vel):
         self.player_vel.x = new_x_vel
+
 
 # pygame setup
 pygame.init()
@@ -77,8 +61,19 @@ while running:
 
     screen.fill("purple")
 
-    pygame.draw.rect(screen, player_1_color, [padding, 10 + player_1_y, 40, cannon_height])
-    pygame.draw.rect(screen, player_2_color, [screen.get_width() - padding - cannon_width, 10 + player_2_y, 40, cannon_height])
+    pygame.draw.rect(
+        screen, player_1_color, [padding, 10 + player_1_y, 40, cannon_height]
+    )
+    pygame.draw.rect(
+        screen,
+        player_2_color,
+        [
+            screen.get_width() - padding - cannon_width,
+            10 + player_2_y,
+            40,
+            cannon_height,
+        ],
+    )
 
     keys = pygame.key.get_pressed()
 
@@ -86,13 +81,19 @@ while running:
         if keys[pygame.K_w]:
             player_1_y = max(0, player_1_y - player_speed * dt)
         if keys[pygame.K_s]:
-            player_1_y = min(screen.get_height() - cannon_height - padding, player_1_y + player_speed * dt)
+            player_1_y = min(
+                screen.get_height() - cannon_height - padding,
+                player_1_y + player_speed * dt,
+            )
 
     if player_2_bubble is None:
         if keys[pygame.K_UP]:
             player_2_y = max(0, player_2_y - player_speed * dt)
         if keys[pygame.K_DOWN]:
-            player_2_y = min(screen.get_height() - cannon_height - padding, player_2_y + player_speed * dt)
+            player_2_y = min(
+                screen.get_height() - cannon_height - padding,
+                player_2_y + player_speed * dt,
+            )
 
     if keys[pygame.K_d]:
         if player_1_bubble is None:
@@ -109,7 +110,9 @@ while running:
 
     if keys[pygame.K_LEFT]:
         if player_2_bubble is None:
-            player_2_bubble = Bubble(screen.get_width() - padding, player_2_y, 0, 0)
+            player_2_bubble = Bubble(
+                screen.get_width() - padding, player_2_y + cannon_height / 2, 0, 0
+            )
         else:
             player_2_bubble.set_visible()
             player_2_bubble.increase_radius()

@@ -67,7 +67,8 @@ b = Bubble(screen.get_width() / 2, screen.get_height() / 2, 100, 0)
 pygame.key.set_repeat()
 
 bubbles = [b]
-player_a_bubble = None
+player_1_bubble = None
+player_2_bubble = None
 
 while running:
     for event in pygame.event.get():
@@ -80,30 +81,45 @@ while running:
     pygame.draw.rect(screen, player_2_color, [screen.get_width() - padding - cannon_width, 10 + player_2_y, 40, cannon_height])
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player_1_y = max(0, player_1_y - player_speed * dt)
-    if keys[pygame.K_s]:
-        player_1_y = min(screen.get_height() - cannon_height - padding, player_1_y + player_speed * dt)
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_UP]:
-        player_2_y = max(0, player_2_y - player_speed * dt)
-    if keys[pygame.K_DOWN]:
-        player_2_y = min(screen.get_height() - cannon_height - padding, player_2_y + player_speed * dt)
+    if player_1_bubble is None:
+        if keys[pygame.K_w]:
+            player_1_y = max(0, player_1_y - player_speed * dt)
+        if keys[pygame.K_s]:
+            player_1_y = min(screen.get_height() - cannon_height - padding, player_1_y + player_speed * dt)
 
-    if keys[pygame.K_SPACE]:
-        if player_a_bubble is None:
-            player_a_bubble = Bubble(screen.get_width() / 2, screen.get_height() / 2, 0, 0)
+    if player_2_bubble is None:
+        if keys[pygame.K_UP]:
+            player_2_y = max(0, player_2_y - player_speed * dt)
+        if keys[pygame.K_DOWN]:
+            player_2_y = min(screen.get_height() - cannon_height - padding, player_2_y + player_speed * dt)
+
+    if keys[pygame.K_d]:
+        if player_1_bubble is None:
+            player_1_bubble = Bubble(padding, player_1_y, 0, 0)
         else:
-            player_a_bubble.increase_radius()
-            player_a_bubble.set_visible()
-            player_a_bubble.draw()
-            player_a_bubble.increase_radius()
+            player_1_bubble.set_visible()
+            player_1_bubble.increase_radius()
+            player_1_bubble.draw()
     else:
-        if player_a_bubble is not None:
-            player_a_bubble.set_x_vel(100)
-            bubbles.append(player_a_bubble)
-        player_a_bubble = None
+        if player_1_bubble is not None:
+            player_1_bubble.set_x_vel(100)
+            bubbles.append(player_1_bubble)
+            player_1_bubble = None
+
+    if keys[pygame.K_LEFT]:
+        if player_2_bubble is None:
+            player_2_bubble = Bubble(screen.get_width() - padding, player_2_y, 0, 0)
+        else:
+            player_2_bubble.set_visible()
+            player_2_bubble.increase_radius()
+            player_2_bubble.draw()
+    else:
+        if player_2_bubble is not None:
+            player_2_bubble.set_x_vel(-100)
+            bubbles.append(player_2_bubble)
+            player_2_bubble = None
+
     for b in bubbles:
         b.tick()
     # flip() the display to put your work on screen

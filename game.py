@@ -49,6 +49,16 @@ def render_collisions(bubbles: List[Bubble]):
         while idx2 < len(bubbles):
             if is_colliding(bubbles[idx], bubbles[idx2]):
                 print("COLLIDING CARALHO")
+                radius_res = abs(bubbles[idx].radius - bubbles[idx2].radius)
+                if radius_res < 5:
+                    bubbles[idx].radius = 0
+                    bubbles[idx2].radius = 0
+                elif bubbles[idx].radius > bubbles[idx2].radius:
+                    bubbles[idx].radius -= math.sqrt(bubbles[idx2].radius)
+                    bubbles[idx2].radius = 0
+                elif bubbles[idx].radius < bubbles[idx2].radius:
+                    bubbles[idx2].radius -= math.sqrt(bubbles[idx].radius)
+                    bubbles[idx].radius = 0
             idx2 += 1
         idx += 1
 

@@ -29,6 +29,11 @@ class Bubble:
     def set_x_vel(self, new_x_vel):
         self.player_vel.x = new_x_vel
 
+    def momentum(self):
+        return self.player_vel * self.mass()
+    
+    def mass(self):
+        return self.radius ** 2
 
 def is_colliding(b1: Bubble, b2: Bubble) -> bool:
     distX = b1.player_pos.x - b2.player_pos.x
@@ -53,12 +58,18 @@ def render_collisions(bubbles: List[Bubble]):
                 if radius_res < 5:
                     bubbles[idx].radius = 0
                     bubbles[idx2].radius = 0
-                elif bubbles[idx].radius > bubbles[idx2].radius:
-                    bubbles[idx].radius -= math.sqrt(bubbles[idx2].radius)
+                elif bubbles[idx].momentum().magnitude() > bubbles[idx2].momentum().magnitude():
+                    print(bubbles[idx].momentum())
+                    print(bubbles[idx2].momentum())
+                    bubbles[idx].player_vel = (bubbles[idx].momentum() + bubbles[idx2].momentum()) / bubbles[idx].radius
+                    print(bubbles[idx].player_vel)
                     bubbles[idx2].radius = 0
-                elif bubbles[idx].radius < bubbles[idx2].radius:
-                    bubbles[idx2].radius -= math.sqrt(bubbles[idx].radius)
+                elif bubbles[idx].momentum().magnitude() < bubbles[idx2].momentum().magnitude():
+                    print(bubbles[idx].momentum())
+                    print(bubbles[idx2].momentum())
+                    bubbles[idx2].player_vel = (bubbles[idx2].momentum() + bubbles[idx].momentum()) / bubbles[idx2].radius
                     bubbles[idx].radius = 0
+                    print(bubbles[idx2].player_vel)
             idx2 += 1
         idx += 1
 

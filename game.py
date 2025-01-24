@@ -5,6 +5,7 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
 cannon_height = 40
+cannon_width = 40
 dt = 0
 
 player_1_y = screen.get_height() / 2 - cannon_height / 2
@@ -17,8 +18,8 @@ while running:
 
     screen.fill("purple")
 
-    pygame.draw.rect(screen, (0, 0, 0), [30, 10 + player_1_y, 40, cannon_height])
-    pygame.draw.rect(screen, (0, 0, 0), [screen.get_width() - 50, 10 + player_2_y, 40, cannon_height])
+    pygame.draw.rect(screen, (0, 0, 0), [20, 10 + player_1_y, 40, cannon_height])
+    pygame.draw.rect(screen, (0, 0, 0), [screen.get_width() - 20 - cannon_width, 10 + player_2_y, 40, cannon_height])
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:

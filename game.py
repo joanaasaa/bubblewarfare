@@ -30,7 +30,7 @@ class Bubble:
 
     def momentum(self):
         return self.player_vel * self.mass()
-    
+
     def mass(self):
         return self.radius ** 2
 

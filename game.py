@@ -14,7 +14,7 @@ class Bubble:
 
     def draw(self):
         if self.visible:
-            pygame.draw.circle(screen, "orange", self.player_pos, self.radius)
+            pygame.draw.circle(screen, "cyan", self.player_pos, self.radius)
 
     def tick(self):
         self.player_pos += self.player_vel * dt
@@ -72,11 +72,11 @@ dt: float = 0
 
 # Player 1
 player_1_y: int = screen.get_height() // 2 - cannon_height // 2
-player_1_color: pygame.Color = pygame.Color(255, 0, 0)
+player_1_color: pygame.Color = pygame.Color("darkgoldenrod")
 
 # Player 2
 player_2_y: int = screen.get_height() // 2 - cannon_height // 2
-player_2_color: pygame.Color = pygame.Color(0, 255, 0)
+player_2_color: pygame.Color = pygame.Color("darkolivegreen")
 
 pygame.key.set_repeat()
 
@@ -89,7 +89,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill("purple")
+    screen.fill("gray36")
 
     pygame.draw.rect(
         screen, player_1_color, [padding, 10 + player_1_y, 40, cannon_height]

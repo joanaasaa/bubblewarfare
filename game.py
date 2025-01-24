@@ -79,20 +79,20 @@ while running:
 
     if player_1_bubble is None:
         if keys[pygame.K_w]:
-            player_1_y = max(0, player_1_y - player_speed * dt)
+            player_1_y = max(0, int(player_1_y - player_speed * dt))
         if keys[pygame.K_s]:
             player_1_y = min(
                 screen.get_height() - cannon_height - padding,
-                player_1_y + player_speed * dt,
+                int(player_1_y + player_speed * dt),
             )
 
     if player_2_bubble is None:
         if keys[pygame.K_UP]:
-            player_2_y = max(0, player_2_y - player_speed * dt)
+            player_2_y = max(0, int(player_2_y - player_speed * dt))
         if keys[pygame.K_DOWN]:
             player_2_y = min(
                 screen.get_height() - cannon_height - padding,
-                player_2_y + player_speed * dt,
+                int(player_2_y + player_speed * dt),
             )
 
     if keys[pygame.K_d]:

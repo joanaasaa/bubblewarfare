@@ -32,7 +32,7 @@ class Bubble:
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
-running = True
+running: bool = True
 
 padding: int = 20
 player_speed: int = 300
@@ -41,18 +41,18 @@ cannon_width: int = 40
 dt: float = 0
 
 # Player 1
-player_1_y = screen.get_height() / 2 - cannon_height / 2
-player_1_color = (255, 0, 0)
+player_1_y: int = screen.get_height() // 2 - cannon_height // 2
+player_1_color: pygame.Color = pygame.Color(255, 0, 0)
 
 # Player 2
-player_2_y = screen.get_height() / 2 - cannon_height / 2
-player_2_color = (0, 255, 0)
+player_2_y: int = screen.get_height() // 2 - cannon_height // 2
+player_2_color: pygame.Color = pygame.Color(0, 255, 0)
 
 pygame.key.set_repeat()
 
 bubbles: List[Bubble] = []
-player_1_bubble = None
-player_2_bubble = None
+player_1_bubble: Bubble | None = None
+player_2_bubble: Bubble | None = None
 
 while running:
     for event in pygame.event.get():

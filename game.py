@@ -8,8 +8,11 @@ cannon_height = 40
 cannon_width = 40
 dt = 0
 
+# Player 1
 player_1_y = screen.get_height() / 2 - cannon_height / 2
 player_1_color = (255, 0, 0)
+
+# Player 2
 player_2_y = screen.get_height() / 2 - cannon_height / 2
 player_2_color = (0, 255, 0)
 

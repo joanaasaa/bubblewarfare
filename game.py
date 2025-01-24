@@ -1,86 +1,7 @@
-import math
 import pygame
 from typing import List
-
-
-class Bubble:
-    def __init__(self, init_x, init_y, vel_x, vel_y):
-        self.player_pos = pygame.Vector2(init_x, init_y)
-        self.player_vel = pygame.Vector2(vel_x, vel_y)
-        self.radius: float = 1
-        self.visible = False
-        self.draw()
-
-    def draw(self):
-        if self.visible:
-            pygame.draw.circle(screen, "cyan", self.player_pos, self.radius)
-
-    def tick(self):
-        self.player_pos += self.player_vel * dt
-        self.draw()
-
-    def increase_radius(self):
-        self.radius += 10 / self.radius
-
-    def set_visible(self):
-        self.visible = True
-
-    def set_x_vel(self, new_x_vel):
-        self.player_vel.x = new_x_vel
-
-    def momentum(self):
-        return self.player_vel * self.mass()
-
-    def mass(self):
-        return self.radius ** 2
-
-def is_colliding(b1: Bubble, b2: Bubble) -> bool:
-    distX = b1.player_pos.x - b2.player_pos.x
-    distY = b1.player_pos.y - b2.player_pos.y
-    distance = math.sqrt((distX * distX) + (distY * distY))
-
-    return distance <= b1.radius + b2.radius
-
-
-def render_collisions(bubbles: List[Bubble]):
-    idx = 0
-    while idx < len(bubbles):
-        idx2 = idx + 1
-        if is_out_of_bounds(bubbles[idx]):
-            print("OUT OF BOUNDS CARALHO")
-            bubbles.remove(bubbles[idx])
-            continue
-        while idx2 < len(bubbles):
-            if is_colliding(bubbles[idx], bubbles[idx2]):
-                print("COLLIDING CARALHO")
-                radius_res = abs(bubbles[idx].radius - bubbles[idx2].radius)
-                if radius_res < 5:
-                    bubbles[idx].radius = 0
-                    bubbles[idx2].radius = 0
-                elif bubbles[idx].momentum().magnitude() > bubbles[idx2].momentum().magnitude():
-                    print(bubbles[idx].momentum())
-                    print(bubbles[idx2].momentum())
-                    bubbles[idx].player_vel = (bubbles[idx].momentum() + bubbles[idx2].momentum()) / bubbles[idx].radius
-                    print(bubbles[idx].player_vel)
-                    bubbles[idx2].radius = 0
-                elif bubbles[idx].momentum().magnitude() < bubbles[idx2].momentum().magnitude():
-                    print(bubbles[idx].momentum())
-                    print(bubbles[idx2].momentum())
-                    bubbles[idx2].player_vel = (bubbles[idx2].momentum() + bubbles[idx].momentum()) / bubbles[idx2].radius
-                    bubbles[idx].radius = 0
-                    print(bubbles[idx2].player_vel)
-            idx2 += 1
-        idx += 1
-
-
-def is_out_of_bounds(bubble: Bubble) -> bool:
-    return (
-        (bubble.player_pos.x > screen.get_width() + bubble.radius)
-        or (bubble.player_pos.x < -bubble.radius)
-        or (bubble.player_pos.y > screen.get_height() + bubble.radius)
-        or (bubble.player_pos.y < -bubble.radius)
-    )
-
+from bubble import Bubble
+import collisions
 
 # pygame setup
 pygame.init()
@@ -157,7 +78,7 @@ while running:
         else:
             player_1_bubble.set_visible()
             player_1_bubble.increase_radius()
-            player_1_bubble.draw()
+            player_1_bubble.draw(screen)
     else:
         if player_1_bubble is not None:
             player_1_bubble.set_x_vel(100)
@@ -175,7 +96,7 @@ while running:
         else:
             player_2_bubble.set_visible()
             player_2_bubble.increase_radius()
-            player_2_bubble.draw()
+            player_2_bubble.draw(screen)
     else:
         if player_2_bubble is not None:
             player_2_bubble.set_x_vel(-100)
@@ -183,10 +104,10 @@ while running:
             player_2_bubble = None
 
     for b in bubbles:
-        b.tick()
+        b.tick(screen, dt)
     # flip() the display to put your work on screen
     pygame.display.flip()
-    render_collisions(bubbles)
+    collisions.render_collisions(bubbles, screen)
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-
     # independent physics.

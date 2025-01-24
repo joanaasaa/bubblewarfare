@@ -3,12 +3,11 @@ import pygame
 from typing import List
 
 
-
 class Bubble:
     def __init__(self, init_x, init_y, vel_x, vel_y):
         self.player_pos = pygame.Vector2(init_x, init_y)
         self.player_vel = pygame.Vector2(vel_x, vel_y)
-        self.radius = 1
+        self.radius: float = 1
         self.visible = False
         self.draw()
 
@@ -64,10 +63,14 @@ def render_collisions(bubbles: List[Bubble]):
 
 
 def is_out_of_bounds(bubble: Bubble) -> bool:
-    return (bubble.player_pos.x > screen.get_width() + bubble.radius) or \
-        (bubble.player_pos.x < -bubble.radius) or \
-        (bubble.player_pos.y > screen.get_height() + bubble.radius) or \
-        (bubble.player_pos.y < -bubble.radius)
+    return (
+        (bubble.player_pos.x > screen.get_width() + bubble.radius)
+        or (bubble.player_pos.x < -bubble.radius)
+        or (bubble.player_pos.y > screen.get_height() + bubble.radius)
+        or (bubble.player_pos.y < -bubble.radius)
+    )
+
+
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))

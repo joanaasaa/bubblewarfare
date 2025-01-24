@@ -1,4 +1,5 @@
 import pygame
+from typing import List
 
 
 class Bubble:
@@ -33,11 +34,11 @@ screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
 
-padding = 20
-player_speed = 300
-cannon_height = 40
-cannon_width = 40
-dt = 0
+padding: int = 20
+player_speed: int = 300
+cannon_height: int = 40
+cannon_width: int = 40
+dt: float = 0
 
 # Player 1
 player_1_y = screen.get_height() / 2 - cannon_height / 2
@@ -47,10 +48,9 @@ player_1_color = (255, 0, 0)
 player_2_y = screen.get_height() / 2 - cannon_height / 2
 player_2_color = (0, 255, 0)
 
-b = Bubble(screen.get_width() / 2, screen.get_height() / 2, 100, 0)
 pygame.key.set_repeat()
 
-bubbles = [b]
+bubbles: List[Bubble] = []
 player_1_bubble = None
 player_2_bubble = None
 

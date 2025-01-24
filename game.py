@@ -1,5 +1,7 @@
+import math
 import pygame
 from typing import List
+
 
 
 class Bubble:
@@ -28,6 +30,34 @@ class Bubble:
         self.player_vel.x = new_x_vel
 
 
+def is_colliding(b1: Bubble, b2: Bubble) -> bool:
+    distX = b1.player_pos.x - b2.player_pos.x
+    distY = b1.player_pos.y - b2.player_pos.y
+    distance = math.sqrt((distX * distX) + (distY * distY))
+
+    return distance <= b1.radius + b2.radius
+
+
+def render_collisions(bubbles: List[Bubble]):
+    idx = 0
+    while idx < len(bubbles):
+        idx2 = idx + 1
+        if is_out_of_bounds(bubbles[idx]):
+            print("OUT OF BOUNDS CARALHO")
+            bubbles.remove(bubbles[idx])
+            continue
+        while idx2 < len(bubbles):
+            if is_colliding(bubbles[idx], bubbles[idx2]):
+                print("COLLIDING CARALHO")
+            idx2 += 1
+        idx += 1
+
+
+def is_out_of_bounds(bubble: Bubble) -> bool:
+    return (bubble.player_pos.x > screen.get_width() + bubble.radius) or \
+        (bubble.player_pos.x < -bubble.radius) or \
+        (bubble.player_pos.y > screen.get_height() + bubble.radius) or \
+        (bubble.player_pos.y < -bubble.radius)
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
@@ -132,7 +162,7 @@ while running:
         b.tick()
     # flip() the display to put your work on screen
     pygame.display.flip()
-
+    render_collisions(bubbles)
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-
     # independent physics.

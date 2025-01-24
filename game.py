@@ -6,9 +6,11 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
+cannon_height = 40
 dt = 0
 
-player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+player_1_y = screen.get_height() / 2 - cannon_height / 2
+player_2_y = screen.get_height() / 2 - cannon_height / 2
 
 while running:
     # poll for events
@@ -20,17 +22,20 @@ while running:
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("purple")
 
-    pygame.draw.circle(screen, "orange", player_pos, 40)
+    pygame.draw.rect(screen, (0, 0, 0), [30, 10 + player_1_y, 40, cannon_height])
+    pygame.draw.rect(screen, (0, 0, 0), [screen.get_width() - 50, 10 + player_2_y, 40, cannon_height])
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player_pos.y -= 300 * dt
+        player_1_y = max(0, player_1_y - 300 * dt)
     if keys[pygame.K_s]:
-        player_pos.y += 300 * dt
-    if keys[pygame.K_a]:
-        player_pos.x -= 300 * dt
-    if keys[pygame.K_d]:
-        player_pos.x += 300 * dt
+        player_1_y = min(screen.get_height() - cannon_height, player_1_y + 300 * dt)
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_UP]:
+        player_2_y = max(0, player_2_y - 300 * dt)
+    if keys[pygame.K_DOWN]:
+        player_2_y = min(screen.get_height() - cannon_height, player_2_y + 300 * dt)
 
     # flip() the display to put your work on screen
     pygame.display.flip()

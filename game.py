@@ -6,6 +6,7 @@ clock = pygame.time.Clock()
 running = True
 
 padding = 20
+player_speed = 300
 cannon_height = 40
 cannon_width = 40
 dt = 0
@@ -30,15 +31,15 @@ while running:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player_1_y = max(0, player_1_y - 300 * dt)
+        player_1_y = max(0, player_1_y - player_speed * dt)
     if keys[pygame.K_s]:
-        player_1_y = min(screen.get_height() - cannon_height - padding, player_1_y + 300 * dt)
+        player_1_y = min(screen.get_height() - cannon_height - padding, player_1_y + player_speed * dt)
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_UP]:
-        player_2_y = max(0, player_2_y - 300 * dt)
+        player_2_y = max(0, player_2_y - player_speed * dt)
     if keys[pygame.K_DOWN]:
-        player_2_y = min(screen.get_height() - cannon_height - padding, player_2_y + 300 * dt)
+        player_2_y = min(screen.get_height() - cannon_height - padding, player_2_y + player_speed * dt)
 
     # flip() the display to put your work on screen
     pygame.display.flip()

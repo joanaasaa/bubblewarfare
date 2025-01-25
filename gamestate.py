@@ -21,10 +21,9 @@ class Gamestate:
 
         self.player1: Player = Player(
             self,
+            consts.Direction.RIGHT,
             40,
-            consts.SCREEN_HEIGHT,
             bubble_sounds,
-            "assets/images/water_gun.png",
             pygame.mixer.Sound("assets/sounds/sound.mp3"),
             self.sprites.bubble,
             True,
@@ -32,10 +31,9 @@ class Gamestate:
         )
         self.player2 = Player(
             self,
+            consts.Direction.LEFT,
             consts.SCREEN_WIDTH - 100,
-            consts.SCREEN_HEIGHT,
             bubble_sounds,
-            "assets/images/water_gun_reflected.png",
             pygame.mixer.Sound("assets/sounds/sound.mp3"),
             self.sprites.bubble,
             False,

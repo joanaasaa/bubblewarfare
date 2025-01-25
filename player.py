@@ -2,16 +2,16 @@ from typing import List
 import pygame
 from bubble import Bubble
 import consts
+from weapons import Weapon, Gun, Gun2
 
 
 class Player:
     def __init__(
         self,
         gamestate,
+        dir: consts.Direction,
         x,
-        screen_height,
         bubble_sounds: List[pygame.mixer.Sound],
-        image_path,
         move_sound,
         sprites: List[pygame.Surface],
         is_player_one=True,
@@ -20,10 +20,9 @@ class Player:
         self.gamestate = gamestate
         self.bubble_sounds = bubble_sounds
         self.player_bubble: Bubble | None = None
-        self.y = screen_height / 2 - 40 / 2  # 40 is cannon_height
-        self.x = x
-        self.speed = 300
-        self.image = pygame.transform.scale(pygame.image.load(image_path), (80, 85))
+        self.dir = dir
+        self.y: int = consts.SCREEN_HEIGHT // 2 - consts.CANNON_HEIGHT // 2
+        self.x: int = x
         self.move_sound = move_sound
         self.is_player_one = is_player_one
         self.move_sound.set_volume(0.15)  # Adjust volume (0.0 to 1.0)
@@ -31,6 +30,9 @@ class Player:
         self.is_moving = False
         self.score = 0
         self.pop_sound = pop_sound
+        self.weapons: List[Weapon] = [Gun(), Gun2()]
+        self.selected_weapon: int = 0
+        self.select_weapon_toggle = False
 
     def move(self, dt, screen_height):
         keys = pygame.key.get_pressed()
@@ -46,13 +48,17 @@ class Player:
             self.move_sound.stop()
 
         if keys[up_key]:
-            self.y = max(0, self.y - self.speed * dt)
+            self.y = max(0, self.y - self.active_weapon().vertical_speed() * dt)
         if keys[down_key]:
-            self.y = min(screen_height - 40, self.y + self.speed * dt)
+            self.y = min(
+                screen_height - 40, self.y + self.active_weapon().vertical_speed() * dt
+            )
 
     def shoot(self):
+        print(self.selected_weapon)
         keys = pygame.key.get_pressed()
         shoot_key = pygame.K_d if self.is_player_one else pygame.K_LEFT
+        change_weapon_key = pygame.K_a if self.is_player_one else pygame.K_RIGHT
         bubble_spawn_pos = (
             consts.PADDING + consts.CANNON_WIDTH
             if self.is_player_one
@@ -82,11 +88,23 @@ class Player:
                 sound.play(0)
                 self.player_bubble = None
 
+        if keys[change_weapon_key]:
+            if self.select_weapon_toggle:
+                return
+            self.select_weapon_toggle = True
+            self.selected_weapon = (self.selected_weapon + 1) % len(self.weapons)
+        else:
+            self.select_weapon_toggle = False
+
     def tick(self, dt):
         self.move(dt, consts.SCREEN_HEIGHT)
 
+    def active_weapon(self) -> Weapon:
+        return self.weapons[self.selected_weapon]
+
     def draw(self, screen):
         self.shoot()
+        self.active_weapon().draw(screen, self.x, self.y, self.dir)
+
         if self.player_bubble is not None:
             self.player_bubble.draw(screen)
-        screen.blit(self.image, (self.x, self.y))

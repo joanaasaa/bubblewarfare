@@ -13,6 +13,7 @@ class Player:
         dir: consts.Direction,
         x,
         is_player_one=True,
+        start_angle = 0,
     ):
         self.gamestate = gamestate
         self.player_bubble: bubble.Bubble | None = None
@@ -29,6 +30,8 @@ class Player:
         self.weapons: List[Weapon] = [Gun(), Gun2()]
         self.selected_weapon: int = 0
         self.select_weapon_toggle = False
+        self.angle = start_angle
+        self.rotation_direction = 1
 
         # Bubble
         self.bubbles: List[Type[bubble.Bubble]] = [

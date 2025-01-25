@@ -1,8 +1,9 @@
 import pygame
 from typing import List
 from assets import assets
-import consts
+
 import math
+import consts
 from abc import ABC, abstractmethod
 
 
@@ -44,6 +45,10 @@ class Bubble(ABC):
         self.vel = (
             momentum * self.momentum() / (self.mass() * self.momentum().magnitude())
         )
+
+    def set_vel(self, vel_2: pygame.Vector2, m_2: int, combined):
+        self.vel.x = (self.mass() * self.vel.x + m_2 * vel_2.x) / combined
+        self.vel.y = (self.mass() * self.vel.y + m_2 * vel_2.y) / combined
 
     def direction(self) -> consts.Direction:
         if self.vel.x < 0:

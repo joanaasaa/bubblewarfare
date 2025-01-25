@@ -1,6 +1,6 @@
 import pygame
 
-from sprites import load_sprites
+from models.sprites import load_sprites
 
 
 class Assets:

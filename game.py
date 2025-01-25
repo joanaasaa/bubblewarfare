@@ -1,44 +1,26 @@
 import pygame
-from gamestate import Gamestate
-from collisions import render_collisions
+import consts
+from warfare import Warfare
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+py_screen = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
+pygame.display.set_caption("Bubble Warfare")
+
 clock = pygame.time.Clock()
 running: bool = True
 
-# Load background image
-background = pygame.image.load("assets/images/battle_arena.png")
-background = pygame.transform.scale(background, (1280, 720))
-
-gamestate = Gamestate()
-
 dt: float = 0
+
+game = Warfare(py_screen, consts.HOME_SCREEN, consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT)
+
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # Draw background instead of filling with gray
-    screen.blit(background, (0, 0))
-
-    # General game info
-    gamestate.render_match_data(screen)
-    # Update entities
-    gamestate.player1.update(dt)
-    gamestate.player2.update(dt)
-    for b in gamestate.bubbles:
-        b.update(dt)
-
-    score = render_collisions(gamestate.bubbles, screen)
-    gamestate.calculate_scoring(score)
-    # Draw entities
-    gamestate.player1.draw(screen)
-    gamestate.player2.draw(screen)
-
-    for b in gamestate.bubbles:
-        b.draw(screen)
+    game.draw(dt)
 
     # flip() the display to put your work on screen
     pygame.display.flip()

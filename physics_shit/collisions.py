@@ -1,4 +1,4 @@
-from bubble import Bubble
+from models.bubble import Bubble
 import math
 import pygame
 from typing import List

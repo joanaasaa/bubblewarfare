@@ -11,3 +11,7 @@ MATH_THRESHOLD = 10
 class Direction(Enum):
     RIGHT = 1
     LEFT = -1
+
+
+HOME_SCREEN = "home_screen"
+GAME_SCREEN = "game_screen"

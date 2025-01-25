@@ -3,25 +3,19 @@ import math
 import pygame
 from typing import List
 
-collision_sound: pygame.mixer.Sound | None = None
-
 
 def is_colliding(b1: Bubble, b2: Bubble) -> bool:
-    if collision_sound is None:
-        collision_sound = pygame.mixer.Sound("assets/sounds/collision.wav")
     distX = b1.pos.x - b2.pos.x
     distY = b1.pos.y - b2.pos.y
     distance = math.sqrt((distX * distX) + (distY * distY))
 
     is_colliding = distance <= b1.radius + b2.radius
-    if is_colliding:
-        collision_sound.play()
-
     return is_colliding
 
 
-def render_collisions(bubbles: List[Bubble], screen: pygame.Surface):
+def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> bool:
     idx = 0
+    has_collision = False
     while idx < len(bubbles):
         idx2 = idx + 1
         if is_out_of_bounds(bubbles[idx], screen):
@@ -29,6 +23,7 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface):
             continue
         while idx2 < len(bubbles):
             if is_colliding(bubbles[idx], bubbles[idx2]):
+                has_collision = True
                 if (
                     bubbles[idx].momentum().magnitude()
                     > bubbles[idx2].momentum().magnitude()
@@ -69,6 +64,7 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface):
     for b in bubbles:
         if b.radius < 5:
             bubbles.remove(b)
+    return has_collision
 
 
 def is_out_of_bounds(bubble: Bubble, screen: pygame.Surface) -> bool:

@@ -8,12 +8,7 @@ from models.weapons import Weapon, Gun, Gun2
 
 class Player:
     def __init__(
-        self,
-        gamestate,
-        dir: consts.Direction,
-        x,
-        is_player_one=True,
-        start_angle = 0,
+        self, gamestate, dir: consts.Direction, x, is_player_one=True, start_angle=0
     ):
         self.gamestate = gamestate
         self.player_bubble: bubble.Bubble | None = None
@@ -130,7 +125,7 @@ class Player:
 
     def draw(self, screen):
         self.shoot()
-        self.active_weapon().draw(screen, self.x, self.y, self.dir)
+        self.active_weapon().draw(screen, self.x, self.y, self.dir, self.angle)
 
         if self.player_bubble is not None:
             self.player_bubble.draw(screen)

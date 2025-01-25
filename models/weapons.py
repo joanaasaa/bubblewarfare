@@ -26,11 +26,20 @@ class Weapon(ABC):
     def move(self) -> None:
         pass
 
-    def draw(self, screen: pygame.Surface, x: int, y: int, dir: consts.Direction):
+    def draw(
+        self,
+        screen: pygame.Surface,
+        x: int,
+        y: int,
+        dir: consts.Direction,
+        angle: float,
+    ):
+        rotated = pygame.transform.rotate(self.image, -angle)
+        new_rect = rotated.get_rect(center=self.image.get_rect(center=(x, y)).center)
         if dir == consts.Direction.LEFT:
-            screen.blit(pygame.transform.flip(self.image, True, False), (x, y))
+            screen.blit(pygame.transform.flip(rotated, True, False), new_rect)
         else:
-            screen.blit(self.image, (x, y))
+            screen.blit(rotated, new_rect)
 
 
 class Gun(Weapon):

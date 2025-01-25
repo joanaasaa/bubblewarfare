@@ -34,9 +34,6 @@ class Bubble:
     def increase_radius(self):
         self.radius += 10 / self.radius
 
-    def set_visible(self):
-        self.visible = True
-
     def momentum(self):
         return self.vel * self.mass()
 

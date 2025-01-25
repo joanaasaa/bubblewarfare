@@ -1,7 +1,7 @@
 from typing import List
 import pygame
 from bubble import Bubble
-from consts import SCREEN_HEIGHT, SCREEN_WIDTH, CANNON_WIDTH, CANNON_HEIGHT, PADDING
+import consts
 
 
 class Player:
@@ -54,9 +54,9 @@ class Player:
         keys = pygame.key.get_pressed()
         shoot_key = pygame.K_d if self.is_player_one else pygame.K_LEFT
         bubble_spawn_pos = (
-            PADDING + CANNON_WIDTH
+            consts.PADDING + consts.CANNON_WIDTH
             if self.is_player_one
-            else SCREEN_WIDTH - PADDING - CANNON_WIDTH
+            else consts.SCREEN_WIDTH - consts.PADDING - consts.CANNON_WIDTH
         )
         bubble_speed = 100 if self.is_player_one else -100
 
@@ -64,7 +64,7 @@ class Player:
             if self.player_bubble is None:
                 self.player_bubble = Bubble(
                     bubble_spawn_pos,
-                    self.get_y() + CANNON_HEIGHT / 2,
+                    self.get_y() + consts.CANNON_HEIGHT / 2,
                     0,
                     0,
                     self.sprites,
@@ -82,7 +82,7 @@ class Player:
                 self.player_bubble = None
 
     def tick(self, dt):
-        self.move(dt, SCREEN_HEIGHT)
+        self.move(dt, consts.SCREEN_HEIGHT)
 
     def draw(self, screen):
         self.shoot()

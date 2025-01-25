@@ -15,6 +15,7 @@ class Player:
         move_sound,
         sprites: List[pygame.Surface],
         is_player_one=True,
+        pop_sound = None
     ):
         self.gamestate = gamestate
         self.bubble_sounds = bubble_sounds
@@ -28,6 +29,8 @@ class Player:
         self.move_sound.set_volume(0.15)  # Adjust volume (0.0 to 1.0)
         self.sprites: List[pygame.Surface] = sprites
         self.is_moving = False
+        self.score = 0
+        self.pop_sound = pop_sound
 
     def move(self, dt, screen_height):
         keys = pygame.key.get_pressed()
@@ -65,6 +68,7 @@ class Player:
                     0,
                     0,
                     self.sprites,
+                    self.pop_sound,
                 )
             else:
                 self.player_bubble.set_visible()

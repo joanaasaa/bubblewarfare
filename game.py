@@ -13,7 +13,6 @@ background = pygame.image.load("assets/images/battle_arena.png")
 background = pygame.transform.scale(background, (1280, 720))
 
 gamestate = Gamestate()
-collision_sound = pygame.mixer.Sound("assets/sounds/collision.wav")
 
 dt: float = 0
 while running:
@@ -26,18 +25,20 @@ while running:
 
     keys = pygame.key.get_pressed()
 
+    # General game info
+    gamestate.render_match_data(screen)
     # Update entities
     gamestate.player1.tick(dt)
     gamestate.player2.tick(dt)
     for b in gamestate.bubbles:
         b.tick(dt)
 
-    if render_collisions(gamestate.bubbles, screen):
-        collision_sound.play()
-
+    score = render_collisions(gamestate.bubbles, screen)
+    gamestate.update_scores(score)
     # Draw entities
     gamestate.player1.draw(screen)
     gamestate.player2.draw(screen)
+
     for b in gamestate.bubbles:
         b.draw(screen)
 

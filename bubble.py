@@ -3,9 +3,8 @@ from typing import List
 import consts
 import math
 
-
 class Bubble:
-    def __init__(self, init_x, init_y, vel_x, vel_y, sprite: List[pygame.Surface]):
+    def __init__(self, init_x, init_y, vel_x, vel_y, sprite: List[pygame.Surface], pop_sound):
         self.pos = pygame.Vector2(init_x, init_y)
         self.vel = pygame.Vector2(vel_x, vel_y)
         self.radius: float = 1
@@ -13,6 +12,7 @@ class Bubble:
         self.sprites: List[pygame.Surface] = sprite
         self.currentSprite: int = 0
         self.sprite_dt = 0
+        self.pop_sound = pop_sound
 
     def draw(self, screen):
         if self.visible:
@@ -54,3 +54,6 @@ class Bubble:
         if self.vel.x < 0:
             return consts.Direction.LEFT
         return consts.Direction.RIGHT
+
+    def pop(self):
+        self.pop_sound.play()

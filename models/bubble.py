@@ -88,3 +88,16 @@ class GrassBubble(Bubble):
 
     def pop(self):
         return super().pop()
+
+
+class FireBubble(Bubble):
+    def __init__(self, init_x, init_y, vel_x, vel_y):
+        super().__init__(init_x, init_y, vel_x, vel_y)
+        self.sprites: List[pygame.Surface] = assets.fire_bubble_sprites
+        self.pop_sound = assets.water_bubble_pop_sound
+
+    def increase_radius(self):
+        self.radius += 1
+
+    def pop(self):
+        return super().pop()

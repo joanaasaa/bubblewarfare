@@ -37,6 +37,7 @@ class Player:
         self.bubbles: List[Type[bubble.Bubble]] = [
             bubble.WaterBubble,
             bubble.GrassBubble,
+            bubble.FireBubble,
         ]
         self.selected_bubble: int = 0
         self.select_bubble_toggle = False

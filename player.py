@@ -30,7 +30,7 @@ class Player:
         self.angle = 0
         self.rotation_direction = 1
 
-    def move(self, dt, screen_height):
+    def move(self, dt):
         keys = pygame.key.get_pressed()
         up_key = pygame.K_w if self.is_player_one else pygame.K_UP
         down_key = pygame.K_s if self.is_player_one else pygame.K_DOWN
@@ -45,7 +45,8 @@ class Player:
             self.y = max(0, self.y - self.active_weapon().vertical_speed() * dt)
         if keys[down_key]:
             self.y = min(
-                screen_height - 40, self.y + self.active_weapon().vertical_speed() * dt
+                consts.SCREEN_HEIGHT - 40,
+                self.y + self.active_weapon().vertical_speed() * dt,
             )
 
     def rotate(self, dt: float):
@@ -104,7 +105,7 @@ class Player:
             self.select_weapon_toggle = False
 
     def update(self, dt):
-        self.move(dt, consts.SCREEN_HEIGHT)
+        self.move(dt)
         self.rotate(dt)
 
     def active_weapon(self) -> Weapon:

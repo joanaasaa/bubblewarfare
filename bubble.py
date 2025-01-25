@@ -3,8 +3,9 @@ from typing import List
 import consts
 import math
 
+
 class Bubble:
-    def __init__(self, init_x, init_y, vel_x, vel_y, sprite: List[pygame.Surface], pop_sound):
+    def __init__(self, init_x, init_y, vel_x, vel_y, sprite: List[pygame.Surface]):
         self.pos = pygame.Vector2(init_x, init_y)
         self.vel = pygame.Vector2(vel_x, vel_y)
         self.radius: float = 1
@@ -12,7 +13,7 @@ class Bubble:
         self.sprites: List[pygame.Surface] = sprite
         self.currentSprite: int = 0
         self.sprite_dt = 0
-        self.pop_sound = pop_sound
+        self.pop_sound = pygame.mixer.Sound("assets/sounds/bubble_pop.wav")
 
     def draw(self, screen):
         if self.visible:

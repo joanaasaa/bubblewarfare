@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import pygame
+from assets import assets
 
 import consts
 
@@ -34,18 +35,12 @@ class Weapon(ABC):
 
 class Gun(Weapon):
     def __init__(self) -> None:
-        self.image = pygame.transform.scale(
-            pygame.image.load("assets/images/water_gun.png"), (80, 85)
-        )
+        self.image: pygame.Surface = assets.water_gun
+        self.shoot_sound: pygame.mixer.Sound = assets.shoot_sound
+        self.move_sound: pygame.mixer.Sound = assets.move_sound
 
         self.v_speed: int = 300
         self.r_speed: int = 30
-        self.shoot_sound: pygame.mixer.Sound = pygame.mixer.Sound(
-            "assets/sounds/p2.wav"
-        )
-        self.move_sound: pygame.mixer.Sound = pygame.mixer.Sound(
-            "assets/sounds/move_sound.mp3"
-        )
 
     def vertical_speed(self) -> int:
         return self.v_speed
@@ -64,18 +59,12 @@ class Gun(Weapon):
 
 class Gun2(Weapon):
     def __init__(self) -> None:
-        self.image = pygame.transform.scale(
-            pygame.image.load("assets/images/water_gun.png"), (80, 85)
-        )
+        self.image: pygame.Surface = assets.water_gun
+        self.shoot_sound: pygame.mixer.Sound = assets.shoot_sound
+        self.move_sound: pygame.mixer.Sound = assets.move_sound
 
         self.v_speed = 600
         self.r_speed = 20
-        self.shoot_sound: pygame.mixer.Sound = pygame.mixer.Sound(
-            "assets/sounds/p2.wav"
-        )
-        self.move_sound: pygame.mixer.Sound = pygame.mixer.Sound(
-            "assets/sounds/move_sound.mp3"
-        )
 
     def vertical_speed(self) -> int:
         return self.v_speed

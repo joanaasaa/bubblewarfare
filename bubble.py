@@ -1,19 +1,20 @@
 import pygame
 from typing import List
+from assets import assets
 import consts
 import math
-from abc import ABC, abstractmethod
+from abc import ABC
 
 
 class Bubble(ABC):
-    def __init__(self, init_x, init_y, vel_x, vel_y, sprite: List[pygame.Surface]):
+    def __init__(self, init_x, init_y, vel_x, vel_y):
         self.pos = pygame.Vector2(init_x, init_y)
         self.vel = pygame.Vector2(vel_x, vel_y)
         self.radius: float = 1
-        self.sprites: List[pygame.Surface] = sprite
+        self.sprites: List[pygame.Surface] = assets.bubble_sprites
         self.currentSprite: int = 0
         self.sprite_dt = 0
-        self.pop_sound = pygame.mixer.Sound("assets/sounds/bubble_pop.wav")
+        self.pop_sound = assets.bubble_pop_sound
 
     def draw(self, screen):
         surface = pygame.transform.scale_by(

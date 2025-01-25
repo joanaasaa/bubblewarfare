@@ -1,29 +1,13 @@
 import pygame as pg
-from typing import List
+from typing import List, Tuple
 
 
-class Sprites:
-    def __init__(self) -> None:
-        # Load bubble sprites
-        bubbleSprites: pg.Surface = pg.image.load("assets/images/bubble.png")
-        bubbleSprite1: pg.Surface = clip(bubbleSprites, 0, 0, 100, 100)
-        bubbleSprite2: pg.Surface = clip(bubbleSprites, 100, 0, 100, 100)
-        bubbleSprite3: pg.Surface = clip(bubbleSprites, 200, 0, 100, 100)
-        bubbleSprite4: pg.Surface = clip(bubbleSprites, 300, 0, 100, 100)
-        bubbleSprite5: pg.Surface = clip(bubbleSprites, 400, 0, 100, 100)
-        bubbleSprite6: pg.Surface = clip(bubbleSprites, 500, 0, 100, 100)
-        bubbleSprite7: pg.Surface = clip(bubbleSprites, 600, 0, 100, 100)
-        bubbleSprite8: pg.Surface = clip(bubbleSprites, 600, 0, 100, 100)
-        self.bubble: List[pg.Surface] = [
-            bubbleSprite1,
-            bubbleSprite2,
-            bubbleSprite3,
-            bubbleSprite4,
-            bubbleSprite5,
-            bubbleSprite6,
-            bubbleSprite7,
-            bubbleSprite8,
-        ]
+def load_sprites(path: str, length: int, size: Tuple[int, int]) -> List[pg.Surface]:
+    img: pg.Surface = pg.image.load(path)
+    sprites: List[pg.Surface] = []
+    for i in range(length):
+        sprites.append(clip(img, i * size[0], 0, size[0], size[1]))
+    return sprites
 
 
 def clip(surface: pg.Surface, x: int, y: int, x_size: int, y_size: int) -> pg.Surface:

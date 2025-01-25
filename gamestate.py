@@ -1,31 +1,15 @@
 from bubble import Bubble
 from typing import List, Tuple
 from player import Player
-from sprites import Sprites
 import consts
 import pygame
 
 
 class Gamestate:
     def __init__(self) -> None:
-        # Load sprites
-        self.sprites: Sprites = Sprites()
-
-        # Load sounds
-
-        self.player1: Player = Player(
-            self,
-            consts.Direction.RIGHT,
-            40,
-            self.sprites.bubble,
-            True,
-        )
+        self.player1: Player = Player(self, consts.Direction.RIGHT, 40, True)
         self.player2 = Player(
-            self,
-            consts.Direction.LEFT,
-            consts.SCREEN_WIDTH - 100,
-            self.sprites.bubble,
-            False,
+            self, consts.Direction.LEFT, consts.SCREEN_WIDTH - 100, False
         )
         self.bubbles: List[Bubble] = []
         self.match_scores: List[int] = [0, 0]

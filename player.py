@@ -12,7 +12,6 @@ class Player:
         gamestate,
         dir: consts.Direction,
         x,
-        sprites: List[pygame.Surface],
         is_player_one=True,
     ):
         self.gamestate = gamestate
@@ -21,7 +20,6 @@ class Player:
         self.y: int = consts.SCREEN_HEIGHT // 2 - consts.CANNON_HEIGHT // 2
         self.x: int = x
         self.is_player_one = is_player_one
-        self.sprites: List[pygame.Surface] = sprites
         self.is_moving = False
         self.score = 0
         self.weapons: List[Weapon] = [Gun(), Gun2()]
@@ -77,7 +75,6 @@ class Player:
                     self.y + consts.CANNON_HEIGHT / 2,
                     0,
                     0,
-                    self.sprites,
                 )
             else:
                 self.player_bubble.increase_radius()

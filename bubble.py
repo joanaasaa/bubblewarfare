@@ -24,7 +24,7 @@ class Bubble:
             screen.blit(surface, rect)
             # pygame.draw.circle(screen, "black", self.player_pos, self.radius)
 
-    def tick(self, dt: float):
+    def update(self, dt: float):
         self.pos += self.vel * dt
         self.sprite_dt += dt
         if self.sprite_dt > 0.05:

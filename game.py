@@ -28,10 +28,10 @@ while running:
     # General game info
     gamestate.render_match_data(screen)
     # Update entities
-    gamestate.player1.tick(dt)
-    gamestate.player2.tick(dt)
+    gamestate.player1.update(dt)
+    gamestate.player2.update(dt)
     for b in gamestate.bubbles:
-        b.tick(dt)
+        b.update(dt)
 
     score = render_collisions(gamestate.bubbles, screen)
     gamestate.calculate_scoring(score)

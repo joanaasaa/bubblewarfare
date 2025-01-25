@@ -101,7 +101,7 @@ class Player:
         else:
             self.select_weapon_toggle = False
 
-    def tick(self, dt):
+    def update(self, dt):
         self.move(dt, consts.SCREEN_HEIGHT)
         self.rotate(dt)
 

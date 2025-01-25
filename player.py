@@ -47,9 +47,6 @@ class Player:
         if keys[down_key]:
             self.y = min(screen_height - 40, self.y + self.speed * dt)
 
-    def get_y(self):
-        return self.y
-
     def shoot(self):
         keys = pygame.key.get_pressed()
         shoot_key = pygame.K_d if self.is_player_one else pygame.K_LEFT
@@ -64,7 +61,7 @@ class Player:
             if self.player_bubble is None:
                 self.player_bubble = Bubble(
                     bubble_spawn_pos,
-                    self.get_y() + consts.CANNON_HEIGHT / 2,
+                    self.y + consts.CANNON_HEIGHT / 2,
                     0,
                     0,
                     self.sprites,

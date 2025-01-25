@@ -5,18 +5,18 @@ from typing import List
 
 class Bubble:
     def __init__(self, init_x, init_y, vel_x, vel_y):
-        self.player_pos = pygame.Vector2(init_x, init_y)
-        self.player_vel = pygame.Vector2(vel_x, vel_y)
+        self.pos = pygame.Vector2(init_x, init_y)
+        self.vel = pygame.Vector2(vel_x, vel_y)
         self.radius: float = 1
         self.visible = False
         self.draw()
 
     def draw(self):
         if self.visible:
-            pygame.draw.circle(screen, "cyan", self.player_pos, self.radius)
+            pygame.draw.circle(screen, "cyan", self.pos, self.radius)
 
     def tick(self):
-        self.player_pos += self.player_vel * dt
+        self.pos += self.vel * dt
         self.draw()
 
     def increase_radius(self):
@@ -26,7 +26,7 @@ class Bubble:
         self.visible = True
 
     def set_x_vel(self, new_x_vel):
-        self.player_vel.x = new_x_vel
+        self.vel.x = new_x_vel
 
     def momentum(self):
         return self.vel * self.mass()
@@ -36,8 +36,8 @@ class Bubble:
 
 
 def is_colliding(b1: Bubble, b2: Bubble) -> bool:
-    distX = b1.player_pos.x - b2.player_pos.x
-    distY = b1.player_pos.y - b2.player_pos.y
+    distX = b1.pos.x - b2.pos.x
+    distY = b1.pos.y - b2.pos.y
     distance = math.sqrt((distX * distX) + (distY * distY))
 
     is_colliding = distance <= b1.radius + b2.radius
@@ -233,7 +233,7 @@ while running:
         b.tick()
     # flip() the display to put your work on screen
     pygame.display.flip()
-    render_collisions(game_bubbles_state)
+    render_collisions(game_bubbles_state, screen)
     # limits FPS to 60
     # dt is delta time in seconds since last frame, used for framerate-
     # independent physics.

@@ -2,6 +2,7 @@ from bubble import Bubble
 import math
 import pygame
 from typing import List
+import itertools
 
 
 def is_colliding(b1: Bubble, b2: Bubble) -> bool:
@@ -14,54 +15,43 @@ def is_colliding(b1: Bubble, b2: Bubble) -> bool:
 
 
 def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> bool:
-    idx = 0
     has_collision = False
-    while idx < len(bubbles):
-        idx2 = idx + 1
-        if is_out_of_bounds(bubbles[idx], screen):
-            bubbles.remove(bubbles[idx])
+    for b1, b2 in itertools.combinations(bubbles, 2):
+        if not is_colliding(b1, b2):
             continue
-        while idx2 < len(bubbles):
-            if is_colliding(bubbles[idx], bubbles[idx2]):
-                has_collision = True
-                if (
-                    bubbles[idx].momentum().magnitude()
-                    > bubbles[idx2].momentum().magnitude()
-                ):
-                    bubbles[idx].vel = (
-                        bubbles[idx].momentum() + bubbles[idx2].momentum()
-                    ) / bubbles[idx].mass()
-                    if bubbles[idx].vel.x * bubbles[idx2].vel.x < 0:
-                        new_radius = math.sqrt(
-                            abs(bubbles[idx].mass() - bubbles[idx2].mass())
-                        )
-                    else:
-                        new_radius = math.sqrt(
-                            bubbles[idx].mass() + bubbles[idx2].mass()
-                        )
-                    bubbles[idx].radius = new_radius
-                    bubbles[idx2].radius = 0
-                elif (
-                    bubbles[idx].momentum().magnitude()
-                    < bubbles[idx2].momentum().magnitude()
-                ):
-                    bubbles[idx2].vel = (
-                        bubbles[idx2].momentum() + bubbles[idx].momentum()
-                    ) / bubbles[idx2].mass()
 
-                    if bubbles[idx].vel.x * bubbles[idx2].vel.x < 0:
-                        new_radius = math.sqrt(
-                            abs(bubbles[idx].mass() - bubbles[idx2].mass())
-                        )
-                    else:
-                        new_radius = math.sqrt(
-                            bubbles[idx].mass() + bubbles[idx2].mass()
-                        )
-                    bubbles[idx2].radius = new_radius
-                    bubbles[idx].radius = 0
-            idx2 += 1
-        idx += 1
+        has_collision = True
+        if b1.direction() == b2.direction():
+            new_mass = b1.mass() + b2.mass()
+            new_momentum = b1.momentum().magnitude() + b2.momentum().magnitude()
+            b1.pos = pygame.Vector2(
+                (b1.mass() * b1.pos.x + b2.mass() * b2.pos.x) / (new_mass),
+                (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (new_mass),
+            )
+            b1.set_mass(new_mass)
+            b1.set_momentum(new_momentum)
+            b2.set_mass(0)
+        else:
+            combined_mass = b1.mass() + b2.mass()
+            if b1.momentum().magnitude() > b2.momentum().magnitude():
+                b1.set_momentum(b1.momentum().magnitude() - b2.momentum().magnitude())
+                b1.pos = pygame.Vector2(
+                    (b1.mass() * b1.pos.x + b2.mass() * b2.pos.x) / (combined_mass),
+                    (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (combined_mass),
+                )
+                b2.set_mass(0)
+            else:
+                b2.set_momentum(b2.momentum().magnitude() - b1.momentum().magnitude())
+                b2.pos = pygame.Vector2(
+                    (b1.mass() * b1.pos.x + b2.mass() * b2.pos.x) / (combined_mass),
+                    (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (combined_mass),
+                )
+                b1.set_mass(0)
+
     for b in bubbles:
+        if is_out_of_bounds(b, screen):
+            bubbles.remove(b)
+            continue
         if b.radius < 5:
             bubbles.remove(b)
     return has_collision

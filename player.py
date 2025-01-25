@@ -74,7 +74,7 @@ class Player:
                 self.player_bubble.increase_radius()
         else:
             if self.player_bubble is not None:
-                self.player_bubble.set_x_vel(bubble_speed)
+                self.player_bubble.vel.x = bubble_speed
                 self.gamestate.bubbles.append(self.player_bubble)
                 sound = self.bubble_sounds[0]
                 sound.set_volume(0.4)

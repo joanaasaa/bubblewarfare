@@ -1,5 +1,7 @@
 import pygame
 from typing import List
+import consts
+import math
 
 
 class Bubble:
@@ -34,11 +36,21 @@ class Bubble:
     def set_visible(self):
         self.visible = True
 
-    def set_x_vel(self, new_x_vel):
-        self.vel.x = new_x_vel
-
     def momentum(self):
         return self.vel * self.mass()
 
     def mass(self):
         return self.radius**2
+
+    def set_mass(self, mass: float):
+        self.radius = math.sqrt(mass)
+
+    def set_momentum(self, momentum: float):
+        self.vel = (
+            momentum * self.momentum() / (self.mass() * self.momentum().magnitude())
+        )
+
+    def direction(self) -> consts.Direction:
+        if self.vel.x < 0:
+            return consts.Direction.LEFT
+        return consts.Direction.RIGHT

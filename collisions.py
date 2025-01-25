@@ -24,25 +24,36 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface):
         while idx2 < len(bubbles):
             if is_colliding(bubbles[idx], bubbles[idx2]):
                 print("COLLIDING CARALHO")
-                radius_res = abs(bubbles[idx].radius - bubbles[idx2].radius)
-                if radius_res < 5:
-                    bubbles[idx].radius = 0
-                    bubbles[idx2].radius = 0
-                elif bubbles[idx].momentum().magnitude() > bubbles[idx2].momentum().magnitude():
+
+                if bubbles[idx].momentum().magnitude() > bubbles[idx2].momentum().magnitude():
                     print(bubbles[idx].momentum())
                     print(bubbles[idx2].momentum())
-                    bubbles[idx].vel = (bubbles[idx].momentum() + bubbles[idx2].momentum()) / bubbles[idx].radius
+                    bubbles[idx].vel = (bubbles[idx].momentum() + bubbles[idx2].momentum()) / bubbles[idx].mass()
                     print(bubbles[idx].vel)
+                    if bubbles[idx].vel.x * bubbles[idx2].vel.x < 0:
+                        new_radius = math.sqrt(abs(bubbles[idx].mass() - bubbles[idx2].mass()))
+                    else:
+                        new_radius = math.sqrt(bubbles[idx].mass() + bubbles[idx2].mass())
+                    bubbles[idx].radius = new_radius
                     bubbles[idx2].radius = 0
                 elif bubbles[idx].momentum().magnitude() < bubbles[idx2].momentum().magnitude():
                     print(bubbles[idx].momentum())
                     print(bubbles[idx2].momentum())
                     bubbles[idx2].vel = (bubbles[idx2].momentum() + bubbles[idx].momentum()) / bubbles[
-                        idx2].radius
+                        idx2].mass()
+
+                    if bubbles[idx].vel.x * bubbles[idx2].vel.x < 0:
+                        new_radius = math.sqrt(abs(bubbles[idx].mass() - bubbles[idx2].mass()))
+                    else:
+                        new_radius = math.sqrt(bubbles[idx].mass() + bubbles[idx2].mass())
+                    bubbles[idx2].radius = new_radius
                     bubbles[idx].radius = 0
                     print(bubbles[idx2].vel)
             idx2 += 1
         idx += 1
+    for b in bubbles:
+        if b.radius < 5:
+            bubbles.remove(b)
 
 
 def is_out_of_bounds(bubble: Bubble, screen: pygame.Surface) -> bool:

@@ -24,4 +24,4 @@ class Bubble:
         return self.vel * self.mass()
 
     def mass(self):
-        return self.radius ** 2
+        return self.radius ** 2 

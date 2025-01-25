@@ -1,5 +1,5 @@
 import math
-from typing import List
+from typing import List, Type
 import pygame
 import models.bubble as bubble
 import consts
@@ -22,11 +22,21 @@ class Player:
         self.is_player_one = is_player_one
         self.is_moving = False
         self.score = 0
+
+        self.angle = 0
+        self.rotation_direction = 1
+        # Weapon
         self.weapons: List[Weapon] = [Gun(), Gun2()]
         self.selected_weapon: int = 0
         self.select_weapon_toggle = False
-        self.angle = 0
-        self.rotation_direction = 1
+
+        # Bubble
+        self.bubbles: List[Type[bubble.Bubble]] = [
+            bubble.WaterBubble,
+            bubble.GrassBubble,
+        ]
+        self.selected_bubble: int = 0
+        self.select_bubble_toggle = False
 
     def move(self, dt):
         keys = pygame.key.get_pressed()
@@ -62,6 +72,7 @@ class Player:
         keys = pygame.key.get_pressed()
         shoot_key = pygame.K_d if self.is_player_one else pygame.K_LEFT
         change_weapon_key = pygame.K_a if self.is_player_one else pygame.K_RIGHT
+        change_bubble_key = pygame.K_q if self.is_player_one else pygame.K_l
         bubble_spawn_pos = (
             consts.PADDING + consts.CANNON_WIDTH
             if self.is_player_one
@@ -70,7 +81,7 @@ class Player:
 
         if keys[shoot_key]:
             if self.player_bubble is None:
-                self.player_bubble = bubble.WaterBubble(
+                self.player_bubble = self.bubbles[self.selected_bubble](
                     bubble_spawn_pos, self.y + consts.CANNON_HEIGHT / 2, 0, 0
                 )
             else:
@@ -97,6 +108,14 @@ class Player:
             self.selected_weapon = (self.selected_weapon + 1) % len(self.weapons)
         else:
             self.select_weapon_toggle = False
+
+        if keys[change_bubble_key]:
+            if self.select_bubble_toggle:
+                return
+            self.select_bubble_toggle = True
+            self.selected_bubble = (self.selected_bubble + 1) % len(self.bubbles)
+        else:
+            self.select_bubble_toggle = False
 
     def update(self, dt):
         self.move(dt)

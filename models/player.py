@@ -57,15 +57,22 @@ class Player:
             )
 
     def rotate(self, dt: float):
-        if self.angle > 45:
-            self.rotation_direction = -1
-        elif self.angle < -45:
-            self.rotation_direction = 1
+        keys = pygame.key.get_pressed()
+        up_key = pygame.K_e if self.is_player_one else pygame.K_l
+        down_key = pygame.K_r if self.is_player_one else pygame.K_o
 
-        self.angle = (
-            self.angle
-            + 1 * self.rotation_direction * self.active_weapon().rotational_speed() * dt
-        )
+
+        if keys[up_key]:
+            self.rotation_direction = 1
+            self.angle = min(45,
+                             self.angle
+                             + 1 * self.rotation_direction * self.active_weapon().rotational_speed() * dt)
+        if keys[down_key]:
+            self.rotation_direction = -1
+            self.angle = max(-45,
+                             self.angle
+                             + 1 * self.rotation_direction * self.active_weapon().rotational_speed() * dt)
+
 
     def shoot(self):
         keys = pygame.key.get_pressed()
@@ -88,13 +95,13 @@ class Player:
         else:
             if self.player_bubble is not None:
                 self.player_bubble.vel.x = (
-                    self.dir.value
-                    * self.active_weapon().vertical_speed()
-                    * math.cos(math.radians(self.angle))
+                        self.dir.value
+                        * self.active_weapon().vertical_speed()
+                        * math.cos(math.radians(self.angle))
                 )
                 self.player_bubble.vel.y = (
-                    self.active_weapon().vertical_speed()
-                    * math.sin(math.radians(self.angle))
+                        self.active_weapon().vertical_speed()
+                        * math.sin(math.radians(self.angle))
                 )
                 self.gamestate.bubbles.append(self.player_bubble)
                 self.active_weapon().shoot()

@@ -71,7 +71,7 @@ class WaterBubble(Bubble):
         self.pop_sound = assets.water_bubble_pop_sound
 
     def increase_radius(self):
-        self.radius += 1
+        self.radius += 10 / self.radius
 
     def pop(self):
         return super().pop()
@@ -84,7 +84,7 @@ class GrassBubble(Bubble):
         self.pop_sound = assets.water_bubble_pop_sound
 
     def increase_radius(self):
-        self.radius += 1
+        self.radius += 10 / self.radius
 
     def pop(self):
         return super().pop()
@@ -97,7 +97,7 @@ class FireBubble(Bubble):
         self.pop_sound = assets.water_bubble_pop_sound
 
     def increase_radius(self):
-        self.radius += 1
+        self.radius += 10 / self.radius
 
     def pop(self):
         return super().pop()

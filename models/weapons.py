@@ -49,7 +49,7 @@ class Gun(Weapon):
         self.move_sound: pygame.mixer.Sound = assets.move_sound
 
         self.v_speed: int = 300
-        self.r_speed: int = 30
+        self.r_speed: int = 80
 
     def vertical_speed(self) -> int:
         return self.v_speed
@@ -73,7 +73,7 @@ class Gun2(Weapon):
         self.move_sound: pygame.mixer.Sound = assets.move_sound
 
         self.v_speed = 600
-        self.r_speed = 20
+        self.r_speed = 80
 
     def vertical_speed(self) -> int:
         return self.v_speed

@@ -76,7 +76,6 @@ class Player:
                     self.sprites,
                 )
             else:
-                self.player_bubble.set_visible()
                 self.player_bubble.increase_radius()
         else:
             if self.player_bubble is not None:

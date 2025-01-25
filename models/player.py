@@ -3,7 +3,7 @@ from typing import List
 import pygame
 from models.bubble import Bubble
 import consts
-from weapons import Weapon, Gun, Gun2
+from models.weapons import Weapon, Gun, Gun2
 
 
 class Player:

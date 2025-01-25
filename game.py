@@ -23,8 +23,6 @@ while running:
     # Draw background instead of filling with gray
     screen.blit(background, (0, 0))
 
-    keys = pygame.key.get_pressed()
-
     # General game info
     gamestate.render_match_data(screen)
     # Update entities

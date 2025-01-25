@@ -34,7 +34,7 @@ while running:
         b.tick(dt)
 
     score = render_collisions(gamestate.bubbles, screen)
-    gamestate.update_scores(score)
+    gamestate.calculate_scoring(score)
     # Draw entities
     gamestate.player1.draw(screen)
     gamestate.player2.draw(screen)

@@ -1,6 +1,7 @@
 import math
 import pygame
 from typing import List
+from sprites import Sprites
 
 
 class Bubble:
@@ -10,13 +11,23 @@ class Bubble:
         self.radius: float = 1
         self.visible = False
         self.draw()
+        self.sprites : List[pygame.Surface] = sprites.bubble
+        self.currentSprite : int = 0
+        self.sprite_dt = 0
 
     def draw(self):
         if self.visible:
-            pygame.draw.circle(screen, "cyan", self.player_pos, self.radius)
+            surface = pygame.transform.scale_by(self.sprites[self.currentSprite], self.radius / 50)
+            rect = surface.get_rect(center=(self.player_pos))
+            screen.blit(surface, rect)
+            # pygame.draw.circle(screen, "black", self.player_pos, self.radius)
 
     def tick(self):
         self.player_pos += self.player_vel * dt
+        self.sprite_dt += dt
+        if self.sprite_dt > 0.05:
+            self.sprite_dt = 0
+            self.currentSprite = (self.currentSprite + 1) % len(self.sprites)
         self.draw()
 
     def increase_radius(self):
@@ -82,6 +93,9 @@ player_speed: int = 300
 cannon_height: int = 40
 cannon_width: int = 40
 dt: float = 0
+
+# Load sprites
+sprites : Sprites = Sprites()
 
 # Player 1
 player_1_y: int = screen.get_height() // 2 - cannon_height // 2

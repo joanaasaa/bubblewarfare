@@ -32,7 +32,10 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> (int, in
             b2.set_mass(0)
         else:
             combined_mass = b1.mass() + b2.mass()
-            if b1.momentum().magnitude() > b2.momentum().magnitude():
+            if abs(b1.momentum().magnitude() - b2.momentum().magnitude()) < 10:
+                b2.set_mass(0)
+                b1.set_mass(0)
+            elif b1.momentum().magnitude() > b2.momentum().magnitude():
                 b1.set_momentum(b1.momentum().magnitude() - b2.momentum().magnitude())
                 b1.pos = pygame.Vector2(
                     (b1.mass() * b1.pos.x + b2.mass() * b2.pos.x) / (combined_mass),
@@ -46,6 +49,7 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> (int, in
                     (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (combined_mass),
                 )
                 b1.set_mass(0)
+
     for b in bubbles:
         if is_out_of_bounds(b, screen):
             won = check_score(b, screen)

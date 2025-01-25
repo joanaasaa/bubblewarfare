@@ -1,3 +1,4 @@
+import math
 from typing import List
 import pygame
 from bubble import Bubble
@@ -33,6 +34,8 @@ class Player:
         self.weapons: List[Weapon] = [Gun(), Gun2()]
         self.selected_weapon: int = 0
         self.select_weapon_toggle = False
+        self.angle = 0
+        self.rotation_direction = 1
 
     def move(self, dt, screen_height):
         keys = pygame.key.get_pressed()
@@ -54,8 +57,16 @@ class Player:
                 screen_height - 40, self.y + self.active_weapon().vertical_speed() * dt
             )
 
+    def rotate(self, dt : float):
+        if self.angle > 45:
+            self.rotation_direction = -1
+        elif self.angle < -45:
+            self.rotation_direction = 1
+
+        self.angle = self.angle + 1 * self.rotation_direction
+
+
     def shoot(self):
-        print(self.selected_weapon)
         keys = pygame.key.get_pressed()
         shoot_key = pygame.K_d if self.is_player_one else pygame.K_LEFT
         change_weapon_key = pygame.K_a if self.is_player_one else pygame.K_RIGHT
@@ -64,7 +75,6 @@ class Player:
             if self.is_player_one
             else consts.SCREEN_WIDTH - consts.PADDING - consts.CANNON_WIDTH
         )
-        bubble_speed = 100 if self.is_player_one else -100
 
         if keys[shoot_key]:
             if self.player_bubble is None:
@@ -81,7 +91,8 @@ class Player:
                 self.player_bubble.increase_radius()
         else:
             if self.player_bubble is not None:
-                self.player_bubble.vel.x = bubble_speed
+                self.player_bubble.vel.x = self.dir.value * self.active_weapon().vertical_speed() * math.cos(math.radians(self.angle))
+                self.player_bubble.vel.y = self.active_weapon().vertical_speed() * math.sin(math.radians(self.angle))
                 self.gamestate.bubbles.append(self.player_bubble)
                 sound = self.bubble_sounds[0]
                 sound.set_volume(0.4)
@@ -98,6 +109,7 @@ class Player:
 
     def tick(self, dt):
         self.move(dt, consts.SCREEN_HEIGHT)
+        self.rotate(dt)
 
     def active_weapon(self) -> Weapon:
         return self.weapons[self.selected_weapon]

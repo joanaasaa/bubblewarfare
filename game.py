@@ -2,48 +2,7 @@ import math
 import pygame
 from typing import List
 from sprites import Sprites
-
-
-class Bubble:
-    def __init__(self, init_x, init_y, vel_x, vel_y):
-        self.pos = pygame.Vector2(init_x, init_y)
-        self.vel = pygame.Vector2(vel_x, vel_y)
-        self.radius: float = 1
-        self.visible = False
-        self.draw()
-        self.sprites : List[pygame.Surface] = sprites.bubble
-        self.currentSprite : int = 0
-        self.sprite_dt = 0
-
-    def draw(self):
-        if self.visible:
-            surface = pygame.transform.scale_by(self.sprites[self.currentSprite], self.radius / 50)
-            rect = surface.get_rect(center=(self.pos))
-            screen.blit(surface, rect)
-            # pygame.draw.circle(screen, "black", self.player_pos, self.radius)
-
-    def tick(self):
-        self.pos += self.vel * dt
-        self.sprite_dt += dt
-        if self.sprite_dt > 0.05:
-            self.sprite_dt = 0
-            self.currentSprite = (self.currentSprite + 1) % len(self.sprites)
-        self.draw()
-
-    def increase_radius(self):
-        self.radius += 10 / self.radius
-
-    def set_visible(self):
-        self.visible = True
-
-    def set_x_vel(self, new_x_vel):
-        self.vel.x = new_x_vel
-
-    def momentum(self):
-        return self.vel * self.mass()
-
-    def mass(self):
-        return self.radius ** 2 
+from bubble import Bubble
 
 
 def is_colliding(b1: Bubble, b2: Bubble) -> bool:
@@ -54,8 +13,9 @@ def is_colliding(b1: Bubble, b2: Bubble) -> bool:
     is_colliding = distance <= b1.radius + b2.radius
     if is_colliding:
         collision_sound.play()
-    
+
     return is_colliding
+
 
 def render_collisions(bubbles: List[Bubble], screen: pygame.Surface):
     idx = 0
@@ -69,27 +29,44 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface):
             if is_colliding(bubbles[idx], bubbles[idx2]):
                 print("COLLIDING CARALHO")
 
-                if bubbles[idx].momentum().magnitude() > bubbles[idx2].momentum().magnitude():
+                if (
+                    bubbles[idx].momentum().magnitude()
+                    > bubbles[idx2].momentum().magnitude()
+                ):
                     print(bubbles[idx].momentum())
                     print(bubbles[idx2].momentum())
-                    bubbles[idx].vel = (bubbles[idx].momentum() + bubbles[idx2].momentum()) / bubbles[idx].mass()
+                    bubbles[idx].vel = (
+                        bubbles[idx].momentum() + bubbles[idx2].momentum()
+                    ) / bubbles[idx].mass()
                     print(bubbles[idx].vel)
                     if bubbles[idx].vel.x * bubbles[idx2].vel.x < 0:
-                        new_radius = math.sqrt(abs(bubbles[idx].mass() - bubbles[idx2].mass()))
+                        new_radius = math.sqrt(
+                            abs(bubbles[idx].mass() - bubbles[idx2].mass())
+                        )
                     else:
-                        new_radius = math.sqrt(bubbles[idx].mass() + bubbles[idx2].mass())
+                        new_radius = math.sqrt(
+                            bubbles[idx].mass() + bubbles[idx2].mass()
+                        )
                     bubbles[idx].radius = new_radius
                     bubbles[idx2].radius = 0
-                elif bubbles[idx].momentum().magnitude() < bubbles[idx2].momentum().magnitude():
+                elif (
+                    bubbles[idx].momentum().magnitude()
+                    < bubbles[idx2].momentum().magnitude()
+                ):
                     print(bubbles[idx].momentum())
                     print(bubbles[idx2].momentum())
-                    bubbles[idx2].vel = (bubbles[idx2].momentum() + bubbles[idx].momentum()) / bubbles[
-                        idx2].mass()
+                    bubbles[idx2].vel = (
+                        bubbles[idx2].momentum() + bubbles[idx].momentum()
+                    ) / bubbles[idx2].mass()
 
                     if bubbles[idx].vel.x * bubbles[idx2].vel.x < 0:
-                        new_radius = math.sqrt(abs(bubbles[idx].mass() - bubbles[idx2].mass()))
+                        new_radius = math.sqrt(
+                            abs(bubbles[idx].mass() - bubbles[idx2].mass())
+                        )
                     else:
-                        new_radius = math.sqrt(bubbles[idx].mass() + bubbles[idx2].mass())
+                        new_radius = math.sqrt(
+                            bubbles[idx].mass() + bubbles[idx2].mass()
+                        )
                     bubbles[idx2].radius = new_radius
                     bubbles[idx].radius = 0
                     print(bubbles[idx2].vel)
@@ -102,88 +79,93 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface):
 
 def is_out_of_bounds(bubble: Bubble, screen: pygame.Surface) -> bool:
     return (
-            (bubble.pos.x > screen.get_width() + bubble.radius)
-            or (bubble.pos.x < -bubble.radius)
-            or (bubble.pos.y > screen.get_height() + bubble.radius)
-            or (bubble.pos.y < -bubble.radius)
+        (bubble.pos.x > screen.get_width() + bubble.radius)
+        or (bubble.pos.x < -bubble.radius)
+        or (bubble.pos.y > screen.get_height() + bubble.radius)
+        or (bubble.pos.y < -bubble.radius)
     )
 
 
-
-
 class Player:
-    def __init__(self, x, screen_height, 
-                    game_bubbles_state: List[Bubble],
-                    player_bubble: Bubble | None,
-                    bubble_sounds: List[pygame.mixer.Sound],
-                    image_path, move_sound,
-                    is_player_one=True):
-        
+    def __init__(
+        self,
+        x,
+        screen_height,
+        game_bubbles_state: List[Bubble],
+        bubble_sounds: List[pygame.mixer.Sound],
+        image_path,
+        move_sound,
+        is_player_one=True,
+    ):
         self.bubble_sounds = bubble_sounds
         self.game_bubbles_state = game_bubbles_state
-        self.player_bubble = player_bubble
+        self.player_bubble: Bubble | None
         self.y = screen_height / 2 - 40 / 2  # 40 is cannon_height
         self.x = x
         self.speed = 300
-        self.image = pygame.transform.scale(
-            pygame.image.load(image_path),
-            (80, 85)
-        )
+        self.image = pygame.transform.scale(pygame.image.load(image_path), (80, 85))
         self.move_sound = move_sound
         self.is_player_one = is_player_one
         self.move_sound.set_volume(0.15)  # Adjust volume (0.0 to 1.0)
         self.is_moving = False
-    
+
     def move(self, dt, screen_height):
         keys = pygame.key.get_pressed()
         up_key = pygame.K_w if self.is_player_one else pygame.K_UP
         down_key = pygame.K_s if self.is_player_one else pygame.K_DOWN
-        
+
         was_moving = self.is_moving
         self.is_moving = keys[up_key] or keys[down_key]
-        
+
         if self.is_moving and not was_moving:
             self.move_sound.play(-1)
         elif not self.is_moving and was_moving:
             self.move_sound.stop()
-            
+
         if keys[up_key]:
             self.y = max(0, self.y - self.speed * dt)
         if keys[down_key]:
             self.y = min(screen_height - 40, self.y + self.speed * dt)
-
 
     def get_y(self):
         return self.y
 
     def shoot(self):
         shoot_key = pygame.K_d if self.is_player_one else pygame.K_LEFT
-        bubble_spawn_pos = padding + cannon_width if self.is_player_one else screen.get_width() - padding - cannon_width
+        bubble_spawn_pos = (
+            padding + cannon_width
+            if self.is_player_one
+            else screen.get_width() - padding - cannon_width
+        )
         bubble_speed = 100 if self.is_player_one else -100
 
         if keys[shoot_key]:
             if self.player_bubble is None:
                 self.player_bubble = Bubble(
-                    bubble_spawn_pos, self.get_y() + cannon_height / 2, 0, 0
+                    bubble_spawn_pos,
+                    self.get_y() + cannon_height / 2,
+                    0,
+                    0,
+                    sprites.bubble,
                 )
             else:
                 self.player_bubble.set_visible()
                 self.player_bubble.increase_radius()
-                self.player_bubble.draw()
+                self.player_bubble.draw(screen)
         else:
             if self.player_bubble is not None:
                 self.player_bubble.set_x_vel(bubble_speed)
                 game_bubbles_state.append(self.player_bubble)
                 sound = self.bubble_sounds[0]
-                sound.set_volume(0.4)  
+                sound.set_volume(0.4)
                 sound.play(0)
                 self.player_bubble = None
 
-    
-    def draw(self, dt,screen):
-        self.move(dt,screen.get_height())
+    def draw(self, dt, screen):
+        self.move(dt, screen.get_height())
         self.shoot()
         screen.blit(self.image, (self.x, self.y))
+
 
 # pygame setup
 pygame.init()
@@ -192,7 +174,7 @@ clock = pygame.time.Clock()
 running: bool = True
 
 # Load background image
-background = pygame.image.load('assets/images/battle_arena.png')
+background = pygame.image.load("assets/images/battle_arena.png")
 background = pygame.transform.scale(background, (1280, 720))
 
 padding: int = 20
@@ -202,7 +184,7 @@ cannon_width: int = 40
 dt: float = 0
 
 # Load sprites
-sprites : Sprites = Sprites()
+sprites: Sprites = Sprites()
 
 # Player 1
 player_1_y: int = screen.get_height() // 2 - cannon_height // 2
@@ -210,24 +192,32 @@ player_1_color: pygame.Color = pygame.Color("darkgoldenrod")
 
 
 bubble_sounds: List[pygame.mixer.Sound] = [
-                 pygame.mixer.Sound('assets/sounds/p2.wav'),
-                 pygame.mixer.Sound('assets/sounds/p2.wav'),
+    pygame.mixer.Sound("assets/sounds/p2.wav"),
+    pygame.mixer.Sound("assets/sounds/p2.wav"),
 ]
 
-collision_sound = pygame.mixer.Sound('assets/sounds/collision.wav')
+collision_sound = pygame.mixer.Sound("assets/sounds/collision.wav")
 
 game_bubbles_state: List[Bubble] = []
-player_1_bubble: Bubble | None = None
-player_2_bubble: Bubble | None = None
 
-player1 = Player(40, screen.get_height(), game_bubbles_state, player_1_bubble, bubble_sounds, 
-                 "assets/images/water_gun.png",
-                 pygame.mixer.Sound('assets/sounds/sound.mp3'),
-                 True)
-player2 = Player(screen.get_width() - 100, screen.get_height(), game_bubbles_state, player_2_bubble, bubble_sounds,
-                 "assets/images/water_gun_reflected.png",
-                 pygame.mixer.Sound('assets/sounds/sound.mp3'),
-                 False)
+player1 = Player(
+    40,
+    screen.get_height(),
+    game_bubbles_state,
+    bubble_sounds,
+    "assets/images/water_gun.png",
+    pygame.mixer.Sound("assets/sounds/sound.mp3"),
+    True,
+)
+player2 = Player(
+    screen.get_width() - 100,
+    screen.get_height(),
+    game_bubbles_state,
+    bubble_sounds,
+    "assets/images/water_gun_reflected.png",
+    pygame.mixer.Sound("assets/sounds/sound.mp3"),
+    False,
+)
 
 pygame.key.set_repeat()
 
@@ -242,12 +232,11 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-
-    player1.draw(dt,screen)
-    player2.draw(dt,screen)
+    player1.draw(dt, screen)
+    player2.draw(dt, screen)
 
     for b in game_bubbles_state:
-        b.tick()
+        b.tick(dt, screen)
     # flip() the display to put your work on screen
     pygame.display.flip()
     render_collisions(game_bubbles_state, screen)

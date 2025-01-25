@@ -14,7 +14,6 @@ class Player:
         x,
         sprites: List[pygame.Surface],
         is_player_one=True,
-        pop_sound=None,
     ):
         self.gamestate = gamestate
         self.player_bubble: Bubble | None = None
@@ -25,8 +24,6 @@ class Player:
         self.sprites: List[pygame.Surface] = sprites
         self.is_moving = False
         self.score = 0
-        self.pop_sound = pop_sound
-
         self.weapons: List[Weapon] = [Gun(), Gun2()]
         self.selected_weapon: int = 0
         self.select_weapon_toggle = False
@@ -51,14 +48,13 @@ class Player:
                 screen_height - 40, self.y + self.active_weapon().vertical_speed() * dt
             )
 
-    def rotate(self, dt : float):
+    def rotate(self, dt: float):
         if self.angle > 45:
             self.rotation_direction = -1
         elif self.angle < -45:
             self.rotation_direction = 1
 
         self.angle = self.angle + 1 * self.rotation_direction
-
 
     def shoot(self):
         keys = pygame.key.get_pressed()
@@ -84,8 +80,15 @@ class Player:
                 self.player_bubble.increase_radius()
         else:
             if self.player_bubble is not None:
-                self.player_bubble.vel.x = self.dir.value * self.active_weapon().vertical_speed() * math.cos(math.radians(self.angle))
-                self.player_bubble.vel.y = self.active_weapon().vertical_speed() * math.sin(math.radians(self.angle))
+                self.player_bubble.vel.x = (
+                    self.dir.value
+                    * self.active_weapon().vertical_speed()
+                    * math.cos(math.radians(self.angle))
+                )
+                self.player_bubble.vel.y = (
+                    self.active_weapon().vertical_speed()
+                    * math.sin(math.radians(self.angle))
+                )
                 self.gamestate.bubbles.append(self.player_bubble)
                 self.active_weapon().shoot()
                 self.player_bubble = None

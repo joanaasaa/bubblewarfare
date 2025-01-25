@@ -1,4 +1,3 @@
-import pygame
 from typing import List
 from screens.home_screen import HomeScreen
 from screens.game_screen import GameScreen

@@ -1,7 +1,7 @@
 import math
 from typing import List
 import pygame
-from models.bubble import Bubble
+import models.bubble as bubble
 import consts
 from models.weapons import Weapon, Gun, Gun2
 
@@ -15,7 +15,7 @@ class Player:
         is_player_one=True,
     ):
         self.gamestate = gamestate
-        self.player_bubble: Bubble | None = None
+        self.player_bubble: bubble.Bubble | None = None
         self.dir = dir
         self.y: int = consts.SCREEN_HEIGHT // 2 - consts.CANNON_HEIGHT // 2
         self.x: int = x
@@ -70,11 +70,8 @@ class Player:
 
         if keys[shoot_key]:
             if self.player_bubble is None:
-                self.player_bubble = Bubble(
-                    bubble_spawn_pos,
-                    self.y + consts.CANNON_HEIGHT / 2,
-                    0,
-                    0,
+                self.player_bubble = bubble.WaterBubble(
+                    bubble_spawn_pos, self.y + consts.CANNON_HEIGHT / 2, 0, 0
                 )
             else:
                 self.player_bubble.increase_radius()

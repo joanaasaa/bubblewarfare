@@ -1,5 +1,5 @@
 import pygame
-
+from typing import List
 from models.sprites import load_sprites
 
 
@@ -15,8 +15,12 @@ class Assets:
         self.move_sound: pygame.mixer.Sound = pygame.mixer.Sound(
             "assets/sounds/move_sound.mp3"
         )
-        self.bubble_sprites = load_sprites("assets/images/bubble.png", 8, (100, 100))
-        self.bubble_pop_sound = pygame.mixer.Sound("assets/sounds/bubble_pop.wav")
+        self.bubble_sprites: List[pygame.Surface] = load_sprites(
+            "assets/images/bubble.png", 8, (100, 100)
+        )
+        self.bubble_pop_sound: pygame.mixer.Sound = pygame.mixer.Sound(
+            "assets/sounds/bubble_pop.wav"
+        )
 
 
 assets = Assets()

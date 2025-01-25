@@ -75,7 +75,7 @@ class WaterBubble(Bubble):
 class GrassBubble(Bubble):
     def __init__(self, init_x, init_y, vel_x, vel_y):
         super().__init__(init_x, init_y, vel_x, vel_y)
-        self.sprites: List[pygame.Surface] = assets.water_bubble_sprites
+        self.sprites: List[pygame.Surface] = assets.grass_bubble_sprites
         self.pop_sound = assets.water_bubble_pop_sound
 
     def increase_radius(self):

@@ -2,9 +2,7 @@ import math
 import pygame
 from typing import List
 from gamestate import Gamestate
-from sprites import Sprites
 from bubble import Bubble
-from player import Player
 
 
 def is_colliding(b1: Bubble, b2: Bubble) -> bool:
@@ -94,39 +92,11 @@ cannon_height: int = 40
 cannon_width: int = 40
 dt: float = 0
 
-# Load sprites
-sprites: Sprites = Sprites()
-
-
-bubble_sounds: List[pygame.mixer.Sound] = [
-    pygame.mixer.Sound("assets/sounds/p2.wav"),
-    pygame.mixer.Sound("assets/sounds/p2.wav"),
-]
 
 collision_sound = pygame.mixer.Sound("assets/sounds/collision.wav")
 
 gamestate = Gamestate()
 
-player1 = Player(
-    gamestate,
-    40,
-    screen.get_height(),
-    bubble_sounds,
-    "assets/images/water_gun.png",
-    pygame.mixer.Sound("assets/sounds/sound.mp3"),
-    sprites.bubble,
-    True,
-)
-player2 = Player(
-    gamestate,
-    screen.get_width() - 100,
-    screen.get_height(),
-    bubble_sounds,
-    "assets/images/water_gun_reflected.png",
-    pygame.mixer.Sound("assets/sounds/sound.mp3"),
-    sprites.bubble,
-    False,
-)
 
 pygame.key.set_repeat()
 
@@ -142,14 +112,14 @@ while running:
     keys = pygame.key.get_pressed()
 
     # Update entities
-    player1.tick(dt)
-    player2.tick(dt)
+    gamestate.player1.tick(dt)
+    gamestate.player2.tick(dt)
     for b in gamestate.bubbles:
         b.tick(dt)
 
     # Draw entities
-    player1.draw(screen)
-    player2.draw(screen)
+    gamestate.player1.draw(screen)
+    gamestate.player2.draw(screen)
     for b in gamestate.bubbles:
         b.draw(screen)
 

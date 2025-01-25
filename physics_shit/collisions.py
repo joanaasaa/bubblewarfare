@@ -1,7 +1,7 @@
 from models.bubble import Bubble
 import math
 import pygame
-from typing import List
+from typing import List, Tuple
 import itertools
 
 
@@ -14,7 +14,7 @@ def is_colliding(b1: Bubble, b2: Bubble) -> bool:
     return is_colliding
 
 
-def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> (int, int):
+def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> Tuple[int, int]:
     score_1 = 0
     score_2 = 0
     for b1, b2 in itertools.combinations(bubbles, 2):
@@ -68,10 +68,10 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> (int, in
 
 def is_out_of_bounds(bubble: Bubble, screen: pygame.Surface) -> bool:
     return (
-            (bubble.pos.x > screen.get_width() + bubble.radius)
-            or (bubble.pos.x < -bubble.radius)
-            or (bubble.pos.y > screen.get_height() + bubble.radius)
-            or (bubble.pos.y < -bubble.radius)
+        (bubble.pos.x > screen.get_width() + bubble.radius)
+        or (bubble.pos.x < -bubble.radius)
+        or (bubble.pos.y > screen.get_height() + bubble.radius)
+        or (bubble.pos.y < -bubble.radius)
     )
 
 

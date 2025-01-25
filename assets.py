@@ -16,7 +16,13 @@ class Assets:
             "assets/sounds/move_sound.mp3"
         )
         self.water_bubble_sprites: List[pygame.Surface] = load_sprites(
-            "assets/images/bubble.png", 8, (100, 100)
+            "assets/images/water_bubble.png", 8, (100, 100)
+        )
+        self.grass_bubble_sprites: List[pygame.Surface] = load_sprites(
+            "assets/images/grass_bubble.png", 8, (100, 100)
+        )
+        self.fire_bubble_sprites: List[pygame.Surface] = load_sprites(
+            "assets/images/fire_bubble.png", 8, (100, 100)
         )
         self.water_bubble_pop_sound: pygame.mixer.Sound = pygame.mixer.Sound(
             "assets/sounds/bubble_pop.wav"

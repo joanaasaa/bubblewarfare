@@ -54,7 +54,10 @@ class Player:
         elif self.angle < -45:
             self.rotation_direction = 1
 
-        self.angle = self.angle + 1 * self.rotation_direction
+        self.angle = (
+            self.angle
+            + 1 * self.rotation_direction * self.active_weapon().rotational_speed() * dt
+        )
 
     def shoot(self):
         keys = pygame.key.get_pressed()

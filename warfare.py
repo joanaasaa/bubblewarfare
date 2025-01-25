@@ -14,22 +14,9 @@ class Warfare:
         self.width = width
         self.height = height
 
-        bubble_sounds: List[pygame.mixer.Sound] = [
-            pygame.mixer.Sound("assets/sounds/p2.wav"),
-            pygame.mixer.Sound("assets/sounds/p2.wav"),
-        ]
-
-        self.player1: Player = Player(
-            self,
-            consts.Direction.RIGHT,
-            40,
-            True,
-        )
+        self.player1: Player = Player(self, consts.Direction.RIGHT, 40, True)
         self.player2 = Player(
-            self,
-            consts.Direction.LEFT,
-            consts.SCREEN_WIDTH - 100,
-            False,
+            self, consts.Direction.LEFT, consts.SCREEN_WIDTH - 100, False
         )
 
         self.bubbles: List[Bubble] = []
@@ -41,7 +28,6 @@ class Warfare:
             ),
         }
         self.current_screen = self.screens_map[self.start_screen]
-        # Load sounds
 
     def draw(self, dt):
         self.current_screen.draw(dt)

@@ -99,7 +99,7 @@ class Player:
     ):
         self.bubble_sounds = bubble_sounds
         self.game_bubbles_state = game_bubbles_state
-        self.player_bubble: Bubble | None
+        self.player_bubble: Bubble | None = None
         self.y = screen_height / 2 - 40 / 2  # 40 is cannon_height
         self.x = x
         self.speed = 300
@@ -161,8 +161,10 @@ class Player:
                 sound.play(0)
                 self.player_bubble = None
 
-    def draw(self, dt, screen):
+    def tick(self, dt):
         self.move(dt, screen.get_height())
+
+    def draw(self, screen):
         self.shoot()
         screen.blit(self.image, (self.x, self.y))
 
@@ -178,17 +180,12 @@ background = pygame.image.load("assets/images/battle_arena.png")
 background = pygame.transform.scale(background, (1280, 720))
 
 padding: int = 20
-player_speed: int = 300
 cannon_height: int = 40
 cannon_width: int = 40
 dt: float = 0
 
 # Load sprites
 sprites: Sprites = Sprites()
-
-# Player 1
-player_1_y: int = screen.get_height() // 2 - cannon_height // 2
-player_1_color: pygame.Color = pygame.Color("darkgoldenrod")
 
 
 bubble_sounds: List[pygame.mixer.Sound] = [
@@ -232,11 +229,18 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-    player1.draw(dt, screen)
-    player2.draw(dt, screen)
-
+    # Update entities
+    player1.tick(dt)
+    player2.tick(dt)
     for b in game_bubbles_state:
-        b.tick(dt, screen)
+        b.tick(dt)
+
+    # Draw entities
+    player1.draw(screen)
+    player2.draw(screen)
+    for b in game_bubbles_state:
+        b.draw(screen)
+
     # flip() the display to put your work on screen
     pygame.display.flip()
     render_collisions(game_bubbles_state, screen)

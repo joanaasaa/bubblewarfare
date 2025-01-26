@@ -12,7 +12,6 @@ class Bubble(ABC):
         self.pos = pygame.Vector2(init_x, init_y)
         self.vel = pygame.Vector2(vel_x, vel_y)
         self.radius: float = 1
-
         self.sprites: List[pygame.Surface]
         self.pop_sound = assets.sounds.watergrass_pop
         self.currentSprite: int = 0
@@ -35,7 +34,7 @@ class Bubble(ABC):
     def momentum(self):
         return self.vel * self.mass()
 
-    def mass(self):
+    def mass(self) -> float:
         return self.radius**2
 
     def set_mass(self, mass: float):
@@ -46,7 +45,7 @@ class Bubble(ABC):
             momentum * self.momentum() / (self.mass() * self.momentum().magnitude())
         )
 
-    def set_vel(self, vel_2: pygame.Vector2, m_2: int, combined):
+    def set_vel(self, vel_2: pygame.Vector2, m_2: float, combined):
         self.vel.x = (self.mass() * self.vel.x + m_2 * vel_2.x) / combined
         self.vel.y = (self.mass() * self.vel.y + m_2 * vel_2.y) / combined
 

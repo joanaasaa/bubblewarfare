@@ -24,7 +24,6 @@ class Player:
         # Weapon
         self.weapons: List[Weapon] = [BubbleGun(), DuckGun(), FutureGun(), BoatGun()]
         self.selected_weapon: int = 0
-        self.select_weapon_toggle = False
         self.angle = start_angle
         self.rotation_direction = 1
 
@@ -75,7 +74,6 @@ class Player:
     def shoot(self):
         keys = pygame.key.get_pressed()
         shoot_key = pygame.K_d if self.is_player_one else pygame.K_LEFT
-        change_weapon_key = pygame.K_a if self.is_player_one else pygame.K_RIGHT
         change_bubble_key = pygame.K_q if self.is_player_one else pygame.K_l
         bubble_spawn_pos = (
             consts.PADDING + consts.CANNON_WIDTH
@@ -105,13 +103,6 @@ class Player:
                 self.active_weapon().shoot()
                 self.player_bubble = None
 
-        if keys[change_weapon_key]:
-            if self.select_weapon_toggle:
-                return
-            self.select_weapon_toggle = True
-            self.selected_weapon = (self.selected_weapon + 1) % len(self.weapons)
-        else:
-            self.select_weapon_toggle = False
 
         if keys[change_bubble_key]:
             if self.select_bubble_toggle:

@@ -4,6 +4,7 @@ from screens.game_screen import GameScreen
 from screens.pause_screen import PauseScreen
 from screens.game_over_screen import GameOverScreen
 from screens.game_selection_screen import GameSelectionScreen
+from screens.round_over_screen import RoundOverScreen
 from models.player import Player
 from models.bubble import Bubble
 import consts
@@ -35,6 +36,7 @@ class Warfare:
             consts.GAME_SELECTION_SCREEN: GameSelectionScreen(
                 self.py_screen, self.width, self.height, self.player1, self.player2
             ),
+            consts.ROUND_OVER_SCREEN: RoundOverScreen(self.py_screen, self.width, self.height),
         }
         self.current_screen = self.screens_map[self.start_screen]
 

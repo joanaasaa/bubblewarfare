@@ -5,7 +5,7 @@ a = Analysis(
     ['game.py'],
     pathex=['venv/lib/python3.13/site-packages/'],
     binaries=[],
-    datas=[],
+    datas=[('assets/', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

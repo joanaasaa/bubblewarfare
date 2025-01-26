@@ -1,2 +1,2 @@
 #!/bin/sh
-pyinstaller --onefile --paths venv/lib/python3.13/site-packages/ game.py
+pyinstaller --onefile --add-data "assets/:." --paths venv/lib/python3.13/site-packages/ game.py

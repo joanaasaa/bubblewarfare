@@ -6,7 +6,8 @@ CANNON_WIDTH = 40
 CANNON_HEIGHT = 40
 PADDING = 20
 MATH_THRESHOLD = 10
-WIN_SCORE=2
+WIN_SCORE = 2
+
 
 class Direction(Enum):
     RIGHT = 1
@@ -30,3 +31,6 @@ GAME_SELECTION_SCREEN = "game_selection_screen"
 ROUND_OVER_SCREEN = "round_over_screen"
 
 WINNER = ""
+
+
+current_arena = 0

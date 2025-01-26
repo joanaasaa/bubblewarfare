@@ -40,9 +40,9 @@ class Bubble(ABC):
     def set_mass(self, mass: float):
         self.radius = math.sqrt(mass)
 
-    def set_momentum(self, momentum: float):
+    def set_momentum(self, momentum: pygame.Vector2):
         self.vel = (
-            momentum * self.momentum() / (self.mass() * self.momentum().magnitude())
+            momentum / self.mass()
         )
 
     def set_vel(self, vel_2: pygame.Vector2, m_2: float, combined):

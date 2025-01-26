@@ -27,8 +27,8 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> Tuple[in
         if b1.direction() == b2.direction():
             new_mass = b1.mass() + b2.mass()
             b1.pos = pygame.Vector2(
-                (b1.mass() * b1.pos.x + b2.mass() * b2.pos.x) / (new_mass),
-                (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (new_mass),
+                (b1.mass() * b1.pos.x + b2.mass() * b2.pos.x) / new_mass,
+                (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / new_mass,
             )
             b1.set_mass(new_mass)
             b1.set_vel(b2.vel, b2.mass(), combined_mass)
@@ -40,21 +40,19 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> Tuple[in
                 b2.pop()
                 bubbles.remove(b2)
             elif b1.momentum().magnitude() > b2.momentum().magnitude():
-                b1.set_vel(b2.vel, b2.mass(), combined_mass)
                 b1.pos = pygame.Vector2(
                     (b1.mass() * b1.pos.x + b2.mass() * b2.pos.x) / (combined_mass),
                     (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (combined_mass),
                 )
-                b1.set_mass(combined_mass)
+                b1.set_momentum(b1.momentum() + b2.momentum())
                 b2.pop()
                 bubbles.remove(b2)
             else:
-                b2.set_vel(b1.vel, b1.mass(), combined_mass)
                 b2.pos = pygame.Vector2(
                     (b1.mass() * b1.pos.x + b2.mass() * b2.pos.x) / (combined_mass),
                     (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (combined_mass),
                 )
-                b2.set_mass(combined_mass)
+                b2.set_momentum(b2.momentum() + b1.momentum())
                 b1.pop()
                 bubbles.remove(b1)
 

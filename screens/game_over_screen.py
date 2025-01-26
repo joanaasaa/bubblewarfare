@@ -101,5 +101,5 @@ class GameOverScreen:
             return consts.HOME_SCREEN
         elif self.restart_screen_clicked():
             self.winner_declared = False
-            return consts.HOME_SCREEN
+            return consts.GAME_SELECTION_SCREEN
         return consts.GAME_OVER_SCREEN

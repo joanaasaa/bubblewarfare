@@ -12,7 +12,7 @@ running: bool = True
 
 dt: float = 0
 
-game = Warfare(py_screen, consts.GAME_SELECTION_SCREEN, consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT)
+game = Warfare(py_screen, consts.HOME_SCREEN, consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT)
 
 
 while running:

@@ -11,7 +11,7 @@ class GameSelectionScreen:
         self.theme = assets.sounds.bubble_warfare_background
         self.is_playing = False
         self.current_selection = 0
-        self.box_size = 75
+        self.box_size = 125
         self.box_spacing = 10
         self.boxes_rects = []  # Store the rectangles for collision detection
         self.button = None
@@ -28,8 +28,8 @@ class GameSelectionScreen:
     
     def overlay_theme(self):
         # Calculate desired dimensions (2/3 of screen)
-        desired_width = int(self.width * 9/14)
-        desired_height = int(self.height * 9/14)
+        desired_width = int(self.width )
+        desired_height = int(self.height )
         
         # Scale background to desired size
         scaled_bg = pygame.transform.scale(self.background, (desired_width, desired_height))
@@ -63,7 +63,7 @@ class GameSelectionScreen:
                     self.button_clicked = True
                     player.change_weapon(consts.Direction.LEFT)
                     print("clicked left")
-                arrow = pygame.transform.scale(player.prev_weapon().image, (self.box_size*3/5  , self.box_size*3/5))
+                arrow = pygame.transform.scale(player.prev_weapon().image, (self.box_size*4/5  , self.box_size*4/5))
                 arrow_x = box_x+self.box_size/4   # 10px padding
                 arrow_y = y+self.box_size/4
                 self.py_screen.blit(arrow, (arrow_x, arrow_y))
@@ -79,7 +79,7 @@ class GameSelectionScreen:
                     self.button_clicked = True
                     player.change_weapon(consts.Direction.RIGHT)
                     print("clicked right")
-                arrow = pygame.transform.scale(player.next_weapon().image, (self.box_size*3/5, self.box_size*3/5))
+                arrow = pygame.transform.scale(player.next_weapon().image, (self.box_size*4/5, self.box_size*4/5))
                 arrow_x = box_x+self.box_size/10 + 10  # 10px padding
                 arrow_y = y+self.box_size/4
                 self.py_screen.blit(arrow, (arrow_x, arrow_y))
@@ -112,14 +112,13 @@ class GameSelectionScreen:
         return self.text_surface_rect.collidepoint(mouse_pos) and mouse_clicked
     
     def draw_start_game_button(self):
-
         pygame.draw.rect(self.py_screen, (50, 200, 50), self.button)
         self.py_screen.blit(self.text_surface, self.text_surface_rect )
     
     def draw(self, dt) -> None:
         self.overlay_theme()
-        self.draw_weapon_selection(self.width/5+30,self.height/3, self.p1)
-        self.draw_weapon_selection(self.width*3/5-30,self.height/3, self.p2)
+        self.draw_weapon_selection(self.width/10+30,self.height/4, self.p1)
+        self.draw_weapon_selection(self.width*3/5-30,self.height/4, self.p2)
         self.draw_start_game_button()
 
         

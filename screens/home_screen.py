@@ -34,5 +34,5 @@ class HomeScreen:
     def update(self):
         if start_game_button():
             self.theme.stop()
-            return consts.GAME_SCREEN
+            return consts.GAME_SELECTION_SCREEN
         return consts.HOME_SCREEN

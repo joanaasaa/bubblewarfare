@@ -68,7 +68,7 @@ class Images:
             (consts.SCREEN_WIDTH / 2, consts.SCREEN_HEIGHT / 2),
         )
         self.game_selection_background = pygame.transform.scale(
-            pygame.image.load("assets/images/gameselection_space_2.jpeg"), (consts.SCREEN_WIDTH/2, consts.SCREEN_HEIGHT/2)
+            pygame.image.load("assets/images/gameselection_space.jpeg"), (consts.SCREEN_WIDTH/2, consts.SCREEN_HEIGHT/2)
         )
 
 

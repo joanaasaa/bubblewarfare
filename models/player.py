@@ -3,7 +3,7 @@ from typing import List, Type
 import pygame
 import models.bubble as bubble
 import consts
-from models.weapons import Weapon, Gun, Gun2
+from models.weapons import Weapon, BubbleGun, Gun2
 
 
 class Player:
@@ -22,7 +22,7 @@ class Player:
         self.angle = 0
         self.rotation_direction = 1
         # Weapon
-        self.weapons: List[Weapon] = [Gun(), Gun2()]
+        self.weapons: List[Weapon] = [BubbleGun(), Gun2()]
         self.selected_weapon: int = 0
         self.select_weapon_toggle = False
         self.angle = start_angle

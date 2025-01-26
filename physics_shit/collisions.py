@@ -26,18 +26,19 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> Tuple[in
         combined_mass = b1.mass() + b2.mass()
         if b1.direction() == b2.direction():
             new_mass = b1.mass() + b2.mass()
-            new_momentum = b1.momentum().magnitude() + b2.momentum().magnitude()
             b1.pos = pygame.Vector2(
                 (b1.mass() * b1.pos.x + b2.mass() * b2.pos.x) / (new_mass),
                 (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (new_mass),
             )
             b1.set_mass(new_mass)
             b1.set_vel(b2.vel, b2.mass(), combined_mass)
-            b2.set_mass(0)
+            bubbles.remove(b2)
         else:
             if abs(b1.momentum().magnitude() - b2.momentum().magnitude()) < 5:
-                b2.set_mass(0)
-                b1.set_mass(0)
+                b1.pop()
+                bubbles.remove(b1)
+                b2.pop()
+                bubbles.remove(b2)
             elif b1.momentum().magnitude() > b2.momentum().magnitude():
                 b1.set_vel(b2.vel, b2.mass(), combined_mass)
                 b1.pos = pygame.Vector2(
@@ -45,7 +46,8 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> Tuple[in
                     (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (combined_mass),
                 )
                 b1.set_mass(combined_mass)
-                b2.set_mass(0)
+                b2.pop()
+                bubbles.remove(b2)
             else:
                 b2.set_vel(b1.vel, b1.mass(), combined_mass)
                 b2.pos = pygame.Vector2(
@@ -53,29 +55,26 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> Tuple[in
                     (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (combined_mass),
                 )
                 b2.set_mass(combined_mass)
-                b1.set_mass(0)
+                b1.pop()
+                bubbles.remove(b1)
 
-    for b in bubbles:
-        remove = False
+    i = 0
+    while i < len(bubbles):
+        b = bubbles[i]
         match is_out_of_bounds(b, screen):
             case consts.Bounds.RIGHT:
                 score_1 += 1
-                remove = True
+                bubbles.remove(b)
+                continue
             case consts.Bounds.LEFT:
                 score_2 += 1
-                remove = True
+                bubbles.remove(b)
+                continue
             case consts.Bounds.UP:
-                b.vel.y = - b.vel.y
-                continue
+                b.vel.y = -b.vel.y
             case consts.Bounds.DOWN:
-                b.vel.y = - b.vel.y
-                continue
-
-        if b.momentum().magnitude() < 5:
-            b.pop()
-            remove = True
-        if remove:
-            bubbles.remove(b)
+                b.vel.y = -b.vel.y
+        i += 1
 
     return score_1, score_2
 

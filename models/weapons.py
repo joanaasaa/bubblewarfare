@@ -42,7 +42,7 @@ class Weapon(ABC):
             screen.blit(rotated, new_rect)
 
 
-class Gun(Weapon):
+class BubbleGun(Weapon):
     def __init__(self) -> None:
         self.image: pygame.Surface = assets.water_gun
         self.shoot_sound: pygame.mixer.Sound = assets.shoot_sound

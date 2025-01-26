@@ -19,7 +19,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+    game.update()
     game.draw(dt)
 
     # flip() the display to put your work on screen

@@ -75,7 +75,6 @@ class GameOverScreen:
 
     def declare_winner(self):
         if not self.winner_declared:
-            print(consts.WINNER)
             if consts.WINNER == "PLAYER 1":
                 self.player_1_wins_sound.play()
             else:

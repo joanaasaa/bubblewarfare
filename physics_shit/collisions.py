@@ -35,9 +35,9 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> Tuple[in
             bubbles.remove(b2)
         else:
             if abs(b1.momentum().magnitude() - b2.momentum().magnitude()) < 5:
-                b1.pop()
+                b1.pop(b2)
                 bubbles.remove(b1)
-                b2.pop()
+                b2.pop(b1)
                 bubbles.remove(b2)
             elif b1.momentum().magnitude() > b2.momentum().magnitude():
                 b1.pos = pygame.Vector2(
@@ -45,7 +45,7 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> Tuple[in
                     (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (combined_mass),
                 )
                 b1.set_momentum(b1.momentum() + b2.momentum())
-                b2.pop()
+                b2.pop(b1)
                 bubbles.remove(b2)
             else:
                 b2.pos = pygame.Vector2(
@@ -53,7 +53,7 @@ def render_collisions(bubbles: List[Bubble], screen: pygame.Surface) -> Tuple[in
                     (b1.mass() * b1.pos.y + b2.mass() * b2.pos.y) / (combined_mass),
                 )
                 b2.set_momentum(b2.momentum() + b1.momentum())
-                b1.pop()
+                b1.pop(b2)
                 bubbles.remove(b1)
 
     i = 0

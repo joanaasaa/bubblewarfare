@@ -46,45 +46,48 @@ class GameSelectionScreen:
         self.boxes_rects = []  # Clear previous rectangles
         mouse_pos = pygame.mouse.get_pos()
         mouse_clicked = pygame.mouse.get_pressed()[0]
+        selector_size = self.box_size*4/7
+        selected_size = self.box_size*1.6
 
-        start_x = x
         if not mouse_clicked:
             self.button_clicked = False
 
-
         # Draw the three boxes
         for i in range(3):
-            box_x = start_x + (i * (self.box_size + self.box_spacing))
-            box_rect = pygame.Rect(box_x, y, self.box_size, self.box_size)
+            box_rect = pygame.Rect(x, y, selector_size, selector_size)
             self.boxes_rects.append(box_rect)
-
+                
             # Draw arrows in boxes
             if i == 0:  # Left box
+                box_rect = pygame.Rect(x, y, selector_size, selector_size)
+                self.boxes_rects.append(box_rect)
+                
                 if box_rect.collidepoint(mouse_pos):
                     pygame.draw.rect(self.py_screen, (255, 255, 0), box_rect, 3)
                 if box_rect.collidepoint(mouse_pos) and mouse_clicked and not self.button_clicked:
                     self.button_clicked = True
                     player.change_weapon(consts.Direction.LEFT)
-                arrow = pygame.transform.scale(player.prev_weapon().image, (self.box_size*4/5  , self.box_size*4/5))
-                arrow_x = box_x+self.box_size/4   # 10px padding
-                arrow_y = y+self.box_size/4
-                self.py_screen.blit(arrow, (arrow_x, arrow_y))
+                arrow = pygame.transform.scale(player.prev_weapon().image, (selector_size  , selector_size))
+                self.py_screen.blit(arrow, (x, y))
+                
             elif i == 1:  # weapon selection
-                arrow = pygame.transform.scale(player.active_weapon().image, (self.box_size*1.3, self.box_size*1.3))
-                arrow_x = box_x
-                arrow_y = y
-                self.py_screen.blit(arrow, (arrow_x, arrow_y))
-            elif i == 2:  # Right box
+                arrow = pygame.transform.scale(player.active_weapon().image, (selected_size, selected_size))
+                self.py_screen.blit(arrow, (x+selector_size, y- (selector_size/2)))
+
+                
+            elif i == 2:  # right box
+                box_rect = pygame.Rect(x+selector_size+selected_size, y, selector_size, selector_size)
+                self.boxes_rects.append(box_rect)
+                
                 if box_rect.collidepoint(mouse_pos):
                     pygame.draw.rect(self.py_screen, (255, 255, 0), box_rect, 3)
                 if box_rect.collidepoint(mouse_pos) and mouse_clicked and not self.button_clicked:
                     self.button_clicked = True
                     player.change_weapon(consts.Direction.RIGHT)
-                arrow = pygame.transform.scale(player.next_weapon().image, (self.box_size*4/5, self.box_size*4/5))
-                arrow_x = box_x+self.box_size/10 + 10  # 10px padding
-                arrow_y = y+self.box_size/4
-                self.py_screen.blit(arrow, (arrow_x, arrow_y))
-    
+                arrow = pygame.transform.scale(player.next_weapon().image, (selector_size, selector_size))
+                
+                self.py_screen.blit(arrow, (x+selector_size+selected_size, y))
+             
     
     
     def draw_arena_selection(self, x, y, arena):
@@ -94,10 +97,8 @@ class GameSelectionScreen:
         selector_size = self.box_size*4/5
         arena_size = self.box_size*1.6
         
-        start_x = x
         if not mouse_clicked:
             self.button_clicked = False
-            
             
         # Draw the three boxes
         for i in range(3):
@@ -138,7 +139,7 @@ class GameSelectionScreen:
         color = (50, 200, 50)
         width = 200
         height = 50
-        x = (self.width - width) // 2 -20
+        x = (self.width - width) // 2 -35
         y = self.height // 2 + 200
         text = "Start Game"
         # Create button rectangle

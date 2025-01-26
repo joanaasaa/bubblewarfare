@@ -26,11 +26,20 @@ class Weapon(ABC):
     def move(self) -> None:
         pass
 
-    def draw(self, screen: pygame.Surface, x: int, y: int, dir: consts.Direction):
+    def draw(
+        self,
+        screen: pygame.Surface,
+        x: int,
+        y: int,
+        dir: consts.Direction,
+        angle: float,
+    ):
+        rotated = pygame.transform.rotate(self.image, -angle)
+        new_rect = rotated.get_rect(center=self.image.get_rect(center=(x, y)).center)
         if dir == consts.Direction.LEFT:
-            screen.blit(pygame.transform.flip(self.image, True, False), (x, y))
+            screen.blit(pygame.transform.flip(rotated, True, False), new_rect)
         else:
-            screen.blit(self.image, (x, y))
+            screen.blit(rotated, new_rect)
 
 
 class Gun(Weapon):
@@ -40,7 +49,7 @@ class Gun(Weapon):
         self.move_sound: pygame.mixer.Sound = assets.sounds.move
 
         self.v_speed: int = 300
-        self.r_speed: int = 30
+        self.r_speed: int = 80
 
     def vertical_speed(self) -> int:
         return self.v_speed
@@ -64,7 +73,7 @@ class Gun2(Weapon):
         self.move_sound: pygame.mixer.Sound = assets.sounds.move
 
         self.v_speed = 600
-        self.r_speed = 20
+        self.r_speed = 80
 
     def vertical_speed(self) -> int:
         return self.v_speed

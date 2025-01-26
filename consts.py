@@ -6,10 +6,13 @@ CANNON_WIDTH = 40
 CANNON_HEIGHT = 40
 PADDING = 20
 MATH_THRESHOLD = 10
+WIN_SCORE=1
 
 class Direction(Enum):
     RIGHT = 1
     LEFT = -1
+
+
 class Bounds(Enum):
     NONE = 0
     UP = 1
@@ -17,7 +20,11 @@ class Bounds(Enum):
     LEFT = 3
     RIGHT = 4
 
-#switch it up like ninentdo ;)
+
+# switch it up like nintendo ;)
 HOME_SCREEN = "home_screen"
 GAME_SCREEN = "game_screen"
 PAUSE_SCREEN = "pause_screen"
+GAME_OVER_SCREEN = "game_over_screen"
+WIN_SCORE=1
+WINNER = ""

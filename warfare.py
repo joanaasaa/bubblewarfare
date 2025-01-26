@@ -2,6 +2,7 @@ from typing import List
 from screens.home_screen import HomeScreen
 from screens.game_screen import GameScreen
 from screens.pause_screen import PauseScreen
+from screens.game_over_screen import GameOverScreen
 from models.player import Player
 from models.bubble import Bubble
 import consts
@@ -27,9 +28,15 @@ class Warfare:
                 self.py_screen, self.player1, self.player2, self.bubbles
             ),
             consts.PAUSE_SCREEN: PauseScreen(self.py_screen, self.width, self.height),
+            consts.GAME_OVER_SCREEN: GameOverScreen(
+                self.py_screen, self.width, self.height
+            ),
         }
         self.current_screen = self.screens_map[self.start_screen]
 
     def draw(self, dt):
         self.current_screen.draw(dt)
+
+    def update(self):
+        print(self.current_screen)
         self.current_screen = self.screens_map[self.current_screen.update()]

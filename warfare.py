@@ -8,7 +8,7 @@ from screens.round_over_screen import RoundOverScreen
 from models.player import Player
 from models.bubble import Bubble
 import consts
-
+from assets import assets
 
 class Warfare:
     def __init__(self, py_screen, start_screen: str, width: int, height: int):
@@ -24,17 +24,20 @@ class Warfare:
 
         self.bubbles: List[Bubble] = []
 
+
+        self.arena=assets.images.arena_background
+        
         self.screens_map = {
             consts.HOME_SCREEN: HomeScreen(self.py_screen, self.width, self.height),
             consts.GAME_SCREEN: GameScreen(
-                self.py_screen, self.player1, self.player2, self.bubbles
+                self.py_screen, self.player1, self.player2, self.bubbles, self.arena
             ),
             consts.PAUSE_SCREEN: PauseScreen(self.py_screen, self.width, self.height),
             consts.GAME_OVER_SCREEN: GameOverScreen(
                 self.py_screen, self.width, self.height
             ),
             consts.GAME_SELECTION_SCREEN: GameSelectionScreen(
-                self.py_screen, self.width, self.height, self.player1, self.player2
+                self.py_screen, self.width, self.height, self.player1, self.player2, self.arena
             ),
             consts.ROUND_OVER_SCREEN: RoundOverScreen(self.py_screen, self.width, self.height),
         }

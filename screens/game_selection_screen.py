@@ -3,7 +3,7 @@ import consts
 from assets import assets
 from models.player import Player
 class GameSelectionScreen:
-    def __init__(self, py_screen, width, height, p1: Player, p2: Player) -> None:
+    def __init__(self, py_screen, width, height, p1: Player, p2: Player, arena) -> None:
         self.width = width
         self.height = height
         self.background = assets.images.game_selection_background
@@ -11,7 +11,7 @@ class GameSelectionScreen:
         self.theme = assets.sounds.bubble_warfare_background
         self.is_playing = False
         self.current_selection = 0
-        self.box_size = 125
+        self.box_size = 110
         self.box_spacing = 10
         self.boxes_rects = []  # Store the rectangles for collision detection
         self.button = None
@@ -20,7 +20,7 @@ class GameSelectionScreen:
         self.init_start_game_button()    
         self.p1 = p1
         self.p2 = p2
-        
+        self.arena = arena
         self.button_clicked = False
         
 
@@ -84,14 +84,61 @@ class GameSelectionScreen:
                 arrow_y = y+self.box_size/4
                 self.py_screen.blit(arrow, (arrow_x, arrow_y))
     
-    def init_start_game_button(self):
+    
+    
+    def draw_arena_selection(self, x, y, arena):
+        self.boxes_rects = []  # Clear previous rectangles
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_clicked = pygame.mouse.get_pressed()[0]
+        
+        start_x = x
+        if not mouse_clicked:
+            self.button_clicked = False
+            
+            
+        # Draw the three boxes
+        for i in range(3):
+            box_x = start_x + (i * (self.box_size + self.box_spacing))
+            box_rect = pygame.Rect(box_x, y, self.box_size, self.box_size)
+            self.boxes_rects.append(box_rect)
+            
+            # Draw arrows in boxes
+            if i == 0:  # Left box
+                if box_rect.collidepoint(mouse_pos):
+                    pygame.draw.rect(self.py_screen, (255, 255, 0), box_rect, 3)
+                if box_rect.collidepoint(mouse_pos) and mouse_clicked and not self.button_clicked:
+                    self.button_clicked = True
+                    print("clicked left")
+                arrow = pygame.transform.scale(assets.images.left_arrow, (self.box_size*4/5  , self.box_size*4/5))
+                arrow_x = box_x+self.box_size/4   # 10px padding
+                arrow_y = y+self.box_size/4+10
+                self.py_screen.blit(arrow, (arrow_x, arrow_y))
+            elif i == 1:  # weapon selection
+                arrow = pygame.transform.scale(arena, (self.box_size*1.6, self.box_size*1.6))
+                arrow_x = box_x 
+                arrow_y = y 
+                self.py_screen.blit(arrow, (arrow_x, arrow_y))
+            elif i == 2:  # Right box
+                if box_rect.collidepoint(mouse_pos):
+                    pygame.draw.rect(self.py_screen, (255, 255, 0), box_rect, 3) 
+                if box_rect.collidepoint(mouse_pos) and mouse_clicked and not self.button_clicked:
+                    self.button_clicked = True
+                    print("clicked right")
+                arrow = pygame.transform.scale(assets.images.right_arrow, (self.box_size*4/5, self.box_size*4/5))
+                arrow_x = box_x+self.box_size/10 + 50  # 10px padding
+                arrow_y = y+self.box_size/4+10
+                self.py_screen.blit(arrow, (arrow_x, arrow_y))
 
+    
+    
+    
+    def init_start_game_button(self):
         # Create and draw button
         color = (50, 200, 50)
         width = 200
         height = 50
-        x = (self.width - width) // 2
-        y = self.height // 2 + 150
+        x = (self.width - width) // 2 -20
+        y = self.height // 2 + 200
         text = "Start Game"
         # Create button rectangle
         # Add button text
@@ -117,8 +164,9 @@ class GameSelectionScreen:
     
     def draw(self, dt) -> None:
         self.overlay_theme()
-        self.draw_weapon_selection(self.width/10+30,self.height/4, self.p1)
-        self.draw_weapon_selection(self.width*3/5-30,self.height/4, self.p2)
+        self.draw_weapon_selection(self.width/12+30,self.height/5, self.p1) 
+        self.draw_weapon_selection(self.width*3/5-30,self.height/5, self.p2)
+        self.draw_arena_selection(self.width/3,self.height*2/5+40, self.arena)
         self.draw_start_game_button()
 
         

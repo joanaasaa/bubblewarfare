@@ -9,7 +9,7 @@ from assets import assets
 
 class GameScreen:
     def __init__(
-        self, py_screen, player1: Player, player2: Player, bubbles: List[Bubble]
+        self, py_screen, player1: Player, player2: Player, bubbles: List[Bubble], arena,
     ):
         self.next_screen = consts.GAME_SCREEN
         self.match_scores: List[int] = [0, 0]
@@ -18,9 +18,10 @@ class GameScreen:
         self.player1 = player1
         self.player2 = player2
         self.text_colour = (168, 50, 62)
+        self.arena= arena
 
     def draw(self, dt):
-        self.py_screen.blit(assets.images.arena_background, (0, 0))
+        self.py_screen.blit(self.arena, (0, 0))
 
         self.player1.update(dt)
         self.player2.update(dt)

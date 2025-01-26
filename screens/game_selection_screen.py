@@ -146,7 +146,7 @@ class GameSelectionScreen:
 
         self.button = pygame.Rect(x, y, width, height)
 
-        font = pygame.font.Font(None, 36)
+        font = pygame.font.Font("assets/fonts/PixelifySans-Regular.ttf", 30)
         self.text_surface = font.render(text, True, (255, 255, 255))
         self.text_surface_rect = self.text_surface.get_rect(center=self.button.center)
 
@@ -160,9 +160,9 @@ class GameSelectionScreen:
         return self.text_surface_rect.collidepoint(mouse_pos) and mouse_clicked
 
     def draw_start_game_button(self):
-        pygame.draw.rect(self.py_screen, (50, 200, 50), self.button)
-        self.py_screen.blit(self.text_surface, self.text_surface_rect )
-
+        pygame.draw.rect(self.py_screen, (50, 200, 50), self.button, border_radius=15)
+        self.py_screen.blit(self.text_surface, self.text_surface_rect)
+    
     def draw(self, dt) -> None:
         self.overlay_theme()
         self.draw_weapon_selection(self.width/12+30,self.height/5, self.p1) 

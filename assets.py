@@ -56,7 +56,7 @@ class Images:
 
         # backgrounds
         self.arena_background = pygame.transform.scale(
-            pygame.image.load("assets/images/battle_arena.png"),
+            pygame.image.load("assets/images/grass_battle_arena.jpeg"),
             (consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT),
         )
         self.bubble_warfare_background = pygame.transform.scale(
@@ -68,7 +68,7 @@ class Images:
             (consts.SCREEN_WIDTH / 2, consts.SCREEN_HEIGHT / 2),
         )
         self.game_selection_background = pygame.transform.scale(
-            pygame.image.load("assets/images/gameselection.png"), (consts.SCREEN_WIDTH/2, consts.SCREEN_HEIGHT/2)
+            pygame.image.load("assets/images/gameselection_space_2.jpeg"), (consts.SCREEN_WIDTH/2, consts.SCREEN_HEIGHT/2)
         )
 
 

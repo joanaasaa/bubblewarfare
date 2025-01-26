@@ -39,7 +39,7 @@ class GameOverScreen:
 
         self.winner = pygame.Rect(x, y, width, height)
 
-        font = pygame.font.Font(None, 36)
+        font = pygame.font.Font("assets/fonts/PixelifySans-Regular.ttf", 36)
         self.winner_surface = font.render(text, True, self.button_text_colour)
         self.winner_surface_rect = self.winner_surface.get_rect(center=self.winner.center)
 
@@ -56,7 +56,7 @@ class GameOverScreen:
 
         self.button = pygame.Rect(x, y, width, height)
 
-        font = pygame.font.Font(None, 36)
+        font = pygame.font.Font("assets/fonts/PixelifySans-Regular.ttf", 36)
         self.text_surface = font.render(text, True, (255, 255, 255))
         self.text_surface_rect = self.text_surface.get_rect(center=self.button.center)
 
@@ -85,8 +85,8 @@ class GameOverScreen:
         self.declare_winner()
         self.init_winner_label()
         # self.py_screen.blit(self.background, (0, 0))
-        pygame.draw.rect(self.py_screen, self.button_background_colour, self.button)
-        pygame.draw.rect(self.py_screen, self.button_background_colour, self.winner)
+        pygame.draw.rect(self.py_screen, self.button_background_colour, self.button, border_radius=15)
+        pygame.draw.rect(self.py_screen, self.button_background_colour, self.winner, border_radius=15)
 
         self.py_screen.blit(self.text_surface, self.text_surface_rect)
         self.py_screen.blit(self.winner_surface, self.winner_surface_rect)

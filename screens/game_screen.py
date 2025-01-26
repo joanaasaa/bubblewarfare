@@ -9,7 +9,11 @@ from assets import assets
 
 class GameScreen:
     def __init__(
-        self, py_screen, player1: Player, player2: Player, bubbles: List[Bubble], arena,
+        self,
+        py_screen,
+        player1: Player,
+        player2: Player,
+        bubbles: List[Bubble],
     ):
         self.next_screen = consts.GAME_SCREEN
         self.match_scores: List[int] = [0, 0]
@@ -18,10 +22,9 @@ class GameScreen:
         self.player1 = player1
         self.player2 = player2
         self.text_colour = (168, 50, 62)
-        self.arena= arena
 
     def draw(self, dt):
-        self.py_screen.blit(self.arena, (0, 0))
+        self.py_screen.blit(assets.images.arenas[consts.current_arena], (0, 0))
 
         self.player1.update(dt)
         self.player2.update(dt)
@@ -51,10 +54,18 @@ class GameScreen:
 
     def render_match_data(self):
         myFont = pygame.font.Font("assets/fonts/PixelifySans-Regular.ttf", 100)
-        player_1_label = myFont.render('{}'.format(self.player1.score), 1, self.text_colour)
-        player_2_label = myFont.render('{}'.format(self.player2.score), 1, self.text_colour)
-        player_1_match_score_label = myFont.render('{}'.format(self.match_scores[0]), 1, self.text_colour)
-        player_2_match_score_label = myFont.render('{}'.format(self.match_scores[1]), 1, self.text_colour)
+        player_1_label = myFont.render(
+            "{}".format(self.player1.score), 1, self.text_colour
+        )
+        player_2_label = myFont.render(
+            "{}".format(self.player2.score), 1, self.text_colour
+        )
+        player_1_match_score_label = myFont.render(
+            "{}".format(self.match_scores[0]), 1, self.text_colour
+        )
+        player_2_match_score_label = myFont.render(
+            "{}".format(self.match_scores[1]), 1, self.text_colour
+        )
 
         self.py_screen.blit(player_1_label, (consts.SCREEN_WIDTH / 2 - 85, 10))
         self.py_screen.blit(player_2_label, (consts.SCREEN_WIDTH / 2 + 40, 10))
@@ -72,10 +83,16 @@ class GameScreen:
         self.match_scores = [0, 0]
 
     def is_round_over(self):
-        return self.player1.score >= consts.MATH_THRESHOLD or self.player2.score >= consts.MATH_THRESHOLD
+        return (
+            self.player1.score >= consts.MATH_THRESHOLD
+            or self.player2.score >= consts.MATH_THRESHOLD
+        )
 
     def is_game_over(self):
-        return self.match_scores[0] == consts.WIN_SCORE or self.match_scores[1] == consts.WIN_SCORE
+        return (
+            self.match_scores[0] == consts.WIN_SCORE
+            or self.match_scores[1] == consts.WIN_SCORE
+        )
 
     def calculate_scoring(self, scores: Tuple[int, int]):
         self.player1.score += scores[0]

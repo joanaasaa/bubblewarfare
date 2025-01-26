@@ -10,6 +10,7 @@ from models.bubble import Bubble
 import consts
 from assets import assets
 
+
 class Warfare:
     def __init__(self, py_screen, start_screen: str, width: int, height: int):
         self.py_screen = py_screen
@@ -24,22 +25,25 @@ class Warfare:
 
         self.bubbles: List[Bubble] = []
 
-
-        self.arena=assets.images.arena_background
-        
         self.screens_map = {
             consts.HOME_SCREEN: HomeScreen(self.py_screen, self.width, self.height),
             consts.GAME_SCREEN: GameScreen(
-                self.py_screen, self.player1, self.player2, self.bubbles, self.arena
+                self.py_screen, self.player1, self.player2, self.bubbles
             ),
             consts.PAUSE_SCREEN: PauseScreen(self.py_screen, self.width, self.height),
             consts.GAME_OVER_SCREEN: GameOverScreen(
                 self.py_screen, self.width, self.height
             ),
             consts.GAME_SELECTION_SCREEN: GameSelectionScreen(
-                self.py_screen, self.width, self.height, self.player1, self.player2, self.arena
+                self.py_screen,
+                self.width,
+                self.height,
+                self.player1,
+                self.player2,
             ),
-            consts.ROUND_OVER_SCREEN: RoundOverScreen(self.py_screen, self.width, self.height),
+            consts.ROUND_OVER_SCREEN: RoundOverScreen(
+                self.py_screen, self.width, self.height
+            ),
         }
         self.current_screen = self.screens_map[self.start_screen]
 

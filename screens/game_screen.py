@@ -6,21 +6,21 @@ from models.bubble import Bubble
 from models.player import Player
 from assets import assets
 
+
 class GameScreen:
     def __init__(
             self, py_screen, player1: Player, player2: Player, bubbles: List[Bubble]
     ):
+        self.next_screen = consts.GAME_SCREEN
         self.match_scores: List[int] = [0, 0]
         self.bubbles = bubbles
         self.py_screen = py_screen
         self.player1 = player1
         self.player2 = player2
-          
-        
 
     def draw(self, dt):
         self.py_screen.blit(assets.images.arena_background, (0, 0))
-        
+
         # Check for space key press
         # Update entities
         self.player1.update(dt)
@@ -42,7 +42,11 @@ class GameScreen:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             return consts.PAUSE_SCREEN
-            
+
+        if self.next_screen is not consts.GAME_SCREEN:
+            currScreen = self.next_screen
+            self.next_screen = consts.GAME_SCREEN
+            return currScreen
         return consts.GAME_SCREEN
 
     def render_match_data(self):
@@ -57,6 +61,15 @@ class GameScreen:
         self.py_screen.blit(player_1_match_score_label, (0 / 2 + 45, 10))
         self.py_screen.blit(player_2_match_score_label, (consts.SCREEN_WIDTH - 100, 10))
 
+    def end_round(self):
+        self.bubbles.clear()
+        self.player1.score = 0
+        self.player2.score = 0
+
+    def end_match(self):
+        self.end_round()
+        self.match_scores = [0, 0]
+
     def calculate_scoring(self, scores: Tuple[int, int]):
         self.player1.score += scores[0]
         self.player2.score += scores[1]
@@ -65,5 +78,11 @@ class GameScreen:
                 self.match_scores[0] += 1
             if self.player2.score >= consts.MATH_THRESHOLD:
                 self.match_scores[1] += 1
-            self.player1.score = 0
-            self.player2.score = 0
+            self.end_round()
+        if self.match_scores[0] == consts.WIN_SCORE or self.match_scores[1] == consts.WIN_SCORE:
+            self.end_match()
+            if self.match_scores[0] > self.match_scores[1]:
+                consts.WINNER = "PLAYER 1"
+            else:
+                consts.WINNER = "PLAYER 2"
+            self.next_screen = consts.GAME_OVER_SCREEN

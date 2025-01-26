@@ -8,7 +8,7 @@ from models.weapons import Weapon, BubbleGun, DuckGun, FutureGun, BoatGun
 
 class Player:
     def __init__(
-            self, gamestate, dir: consts.Direction, x, is_player_one=True, start_angle=0
+        self, gamestate, dir: consts.Direction, x, is_player_one=True, start_angle=0
     ):
         self.gamestate = gamestate
         self.player_bubble: bubble.Bubble | None = None
@@ -38,8 +38,8 @@ class Player:
 
     def move(self, dt):
         keys = pygame.key.get_pressed()
-        up_key = pygame.K_w if self.is_player_one else pygame.K_UP
-        down_key = pygame.K_s if self.is_player_one else pygame.K_DOWN
+        up_key = pygame.K_a if self.is_player_one else pygame.K_j
+        down_key = pygame.K_d if self.is_player_one else pygame.K_l
 
         was_moving = self.is_moving
         self.is_moving = keys[up_key] or keys[down_key]
@@ -57,24 +57,34 @@ class Player:
 
     def rotate(self, dt: float):
         keys = pygame.key.get_pressed()
-        up_key = pygame.K_e if self.is_player_one else pygame.K_l
-        down_key = pygame.K_r if self.is_player_one else pygame.K_o
+        up_key = pygame.K_q if self.is_player_one else pygame.K_u
+        down_key = pygame.K_e if self.is_player_one else pygame.K_o
 
         if keys[up_key]:
             self.rotation_direction = 1
-            self.angle = min(45,
-                             self.angle
-                             + 1 * self.rotation_direction * self.active_weapon().rotational_speed() * dt)
+            self.angle = min(
+                45,
+                self.angle
+                + 1
+                * self.rotation_direction
+                * self.active_weapon().rotational_speed()
+                * dt,
+            )
         if keys[down_key]:
             self.rotation_direction = -1
-            self.angle = max(-45,
-                             self.angle
-                             + 1 * self.rotation_direction * self.active_weapon().rotational_speed() * dt)
+            self.angle = max(
+                -45,
+                self.angle
+                + 1
+                * self.rotation_direction
+                * self.active_weapon().rotational_speed()
+                * dt,
+            )
 
     def shoot(self):
         keys = pygame.key.get_pressed()
-        shoot_key = pygame.K_d if self.is_player_one else pygame.K_LEFT
-        change_bubble_key = pygame.K_q if self.is_player_one else pygame.K_l
+        shoot_key = pygame.K_w if self.is_player_one else pygame.K_i
+        change_bubble_key = pygame.K_s if self.is_player_one else pygame.K_k
         bubble_spawn_pos = (
             consts.PADDING + consts.CANNON_WIDTH
             if self.is_player_one
@@ -91,18 +101,17 @@ class Player:
         else:
             if self.player_bubble is not None:
                 self.player_bubble.vel.x = (
-                        self.dir.value
-                        * self.active_weapon().vertical_speed()
-                        * math.cos(math.radians(self.angle))
+                    self.dir.value
+                    * self.active_weapon().vertical_speed()
+                    * math.cos(math.radians(self.angle))
                 )
                 self.player_bubble.vel.y = (
-                        self.active_weapon().vertical_speed()
-                        * math.sin(math.radians(self.angle))
+                    self.active_weapon().vertical_speed()
+                    * math.sin(math.radians(self.angle))
                 )
                 self.gamestate.bubbles.append(self.player_bubble)
                 self.active_weapon().shoot()
                 self.player_bubble = None
-
 
         if keys[change_bubble_key]:
             if self.select_bubble_toggle:
@@ -127,11 +136,16 @@ class Player:
             self.player_bubble.draw(screen)
 
     def change_weapon(self, change_direction: consts.Direction):
-        self.selected_weapon = (self.selected_weapon + change_direction.value) % len(self.weapons)
-
+        self.selected_weapon = (self.selected_weapon + change_direction.value) % len(
+            self.weapons
+        )
 
     def next_weapon(self):
-        return self.weapons[(self.selected_weapon + consts.Direction.RIGHT.value) % len(self.weapons)]
+        return self.weapons[
+            (self.selected_weapon + consts.Direction.RIGHT.value) % len(self.weapons)
+        ]
 
     def prev_weapon(self):
-        return self.weapons[(self.selected_weapon + consts.Direction.LEFT.value) % len(self.weapons)]   
+        return self.weapons[
+            (self.selected_weapon + consts.Direction.LEFT.value) % len(self.weapons)
+        ]

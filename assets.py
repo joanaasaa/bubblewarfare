@@ -58,7 +58,7 @@ class Images:
 
         # backgrounds
         self.arena_background = pygame.transform.scale(
-            pygame.image.load("assets/images/battle_arena.jpeg"),
+            pygame.image.load("assets/images/battle_arena.png"),
             (consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT),
         )
         self.grass_arena_background = pygame.transform.scale(

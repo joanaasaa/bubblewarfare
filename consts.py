@@ -20,3 +20,4 @@ class Bounds(Enum):
 #switch it up like ninentdo ;)
 HOME_SCREEN = "home_screen"
 GAME_SCREEN = "game_screen"
+PAUSE_SCREEN = "pause_screen"

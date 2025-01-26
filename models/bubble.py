@@ -14,7 +14,7 @@ class Bubble(ABC):
         self.radius: float = 1
 
         self.sprites: List[pygame.Surface]
-        self.pop_sound = assets.water_bubble_pop_sound
+        self.pop_sound = assets.sounds.watergrass_pop
         self.currentSprite: int = 0
         self.sprite_dt = 0
 
@@ -67,8 +67,8 @@ class Bubble(ABC):
 class WaterBubble(Bubble):
     def __init__(self, init_x, init_y, vel_x, vel_y):
         super().__init__(init_x, init_y, vel_x, vel_y)
-        self.sprites: List[pygame.Surface] = assets.water_bubble_sprites
-        self.pop_sound = assets.water_bubble_pop_sound
+        self.sprites: List[pygame.Surface] = assets.images.water_bubble_sprites
+        self.pop_sound = assets.sounds.watergrass_pop
 
     def increase_radius(self):
         self.radius += 1
@@ -80,8 +80,8 @@ class WaterBubble(Bubble):
 class GrassBubble(Bubble):
     def __init__(self, init_x, init_y, vel_x, vel_y):
         super().__init__(init_x, init_y, vel_x, vel_y)
-        self.sprites: List[pygame.Surface] = assets.grass_bubble_sprites
-        self.pop_sound = assets.water_bubble_pop_sound
+        self.sprites: List[pygame.Surface] = assets.images.grass_bubble_sprites
+        self.pop_sound = assets.sounds.watergrass_pop
 
     def increase_radius(self):
         self.radius += 1
@@ -93,8 +93,8 @@ class GrassBubble(Bubble):
 class FireBubble(Bubble):
     def __init__(self, init_x, init_y, vel_x, vel_y):
         super().__init__(init_x, init_y, vel_x, vel_y)
-        self.sprites: List[pygame.Surface] = assets.fire_bubble_sprites
-        self.pop_sound = assets.water_bubble_pop_sound
+        self.sprites: List[pygame.Surface] = assets.images.fire_bubble_sprites
+        self.pop_sound = assets.sounds.watergrass_pop
 
     def increase_radius(self):
         self.radius += 1

@@ -4,7 +4,7 @@ from physics_shit.collisions import render_collisions
 from typing import List, Tuple
 from models.bubble import Bubble
 from models.player import Player
-
+from assets import assets
 
 class GameScreen:
     def __init__(
@@ -15,15 +15,13 @@ class GameScreen:
         self.py_screen = py_screen
         self.player1 = player1
         self.player2 = player2
-        self.next_screen = consts.GAME_SCREEN
-
-        background = pygame.image.load("assets/images/battle_arena.png")
-        self.background = pygame.transform.scale(
-            background, (consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT)
-        )
+          
+        
 
     def draw(self, dt):
-        self.py_screen.blit(self.background, (0, 0))
+        self.py_screen.blit(assets.images.arena_background, (0, 0))
+        
+        # Check for space key press
         # Update entities
         self.player1.update(dt)
         self.player2.update(dt)
@@ -41,7 +39,11 @@ class GameScreen:
         self.render_match_data()
 
     def update(self):
-        return self.next_screen
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            return consts.PAUSE_SCREEN
+            
+        return consts.GAME_SCREEN
 
     def render_match_data(self):
         myFont = pygame.font.Font("assets/fonts/PixelifySans-Regular.ttf", 100)

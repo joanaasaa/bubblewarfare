@@ -1,17 +1,16 @@
 import pygame
 import consts
-
+from assets import assets
 
 class HomeScreen:
     def __init__(self, py_screen, width, height) -> None:
         self.width = width
         self.height = height
-        self.background = pygame.transform.scale(
-            pygame.image.load("assets/images/bubble_warfare.png"),
-            (self.width, self.height),
-        )
+        self.background = assets.images.bubble_warfare_background
         self.py_screen = py_screen
         self.next_screen = consts.HOME_SCREEN
+        self.theme = assets.sounds.home_theme
+        self.is_playing = False
 
     def start_game_button(self, text, x, y, width, height, color) -> bool:
         # Create button rectangle
@@ -33,6 +32,10 @@ class HomeScreen:
     def draw(self, dt) -> None:
         self.py_screen.blit(self.background, (0, 0))
 
+        if not self.is_playing:
+            self.theme.play(-1)
+            self.is_playing = True
+
         # Create and draw button
         button_width = 200
         button_height = 50
@@ -42,6 +45,7 @@ class HomeScreen:
         if self.start_game_button(
             "Start Game", button_x, button_y, button_width, button_height, (50, 200, 50)
         ):
+            self.theme.stop()
             self.next_screen = consts.GAME_SCREEN
 
     def update(self):

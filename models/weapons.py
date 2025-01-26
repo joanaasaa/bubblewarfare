@@ -35,9 +35,9 @@ class Weapon(ABC):
 
 class Gun(Weapon):
     def __init__(self) -> None:
-        self.image: pygame.Surface = assets.water_gun
-        self.shoot_sound: pygame.mixer.Sound = assets.shoot_sound
-        self.move_sound: pygame.mixer.Sound = assets.move_sound
+        self.image: pygame.Surface = assets.images.water_gun_p1
+        self.shoot_sound: pygame.mixer.Sound = assets.sounds.gun_shoot
+        self.move_sound: pygame.mixer.Sound = assets.sounds.move
 
         self.v_speed: int = 300
         self.r_speed: int = 30
@@ -59,9 +59,9 @@ class Gun(Weapon):
 
 class Gun2(Weapon):
     def __init__(self) -> None:
-        self.image: pygame.Surface = assets.water_gun
-        self.shoot_sound: pygame.mixer.Sound = assets.shoot_sound
-        self.move_sound: pygame.mixer.Sound = assets.move_sound
+        self.image: pygame.Surface = assets.images.water_gun_p2
+        self.shoot_sound: pygame.mixer.Sound = assets.sounds.gun_shoot
+        self.move_sound: pygame.mixer.Sound = assets.sounds.move
 
         self.v_speed = 600
         self.r_speed = 20

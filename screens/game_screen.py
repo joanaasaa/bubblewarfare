@@ -9,7 +9,7 @@ from assets import assets
 
 class GameScreen:
     def __init__(
-            self, py_screen, player1: Player, player2: Player, bubbles: List[Bubble]
+        self, py_screen, player1: Player, player2: Player, bubbles: List[Bubble]
     ):
         self.next_screen = consts.GAME_SCREEN
         self.match_scores: List[int] = [0, 0]
@@ -22,8 +22,6 @@ class GameScreen:
     def draw(self, dt):
         self.py_screen.blit(assets.images.arena_background, (0, 0))
 
-        # Check for space key press
-        # Update entities
         self.player1.update(dt)
         self.player2.update(dt)
         for b in self.bubbles:
@@ -56,6 +54,7 @@ class GameScreen:
         player_2_label = myFont.render('{}'.format(self.player2.score), 1, self.text_colour)
         player_1_match_score_label = myFont.render('{}'.format(self.match_scores[0]), 1, self.text_colour)
         player_2_match_score_label = myFont.render('{}'.format(self.match_scores[1]), 1, self.text_colour)
+
         self.py_screen.blit(player_1_label, (consts.SCREEN_WIDTH / 2 - 85, 10))
         self.py_screen.blit(player_2_label, (consts.SCREEN_WIDTH / 2 + 40, 10))
 

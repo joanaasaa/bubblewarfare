@@ -44,7 +44,7 @@ class Weapon(ABC):
 
 class BubbleGun(Weapon):
     def __init__(self) -> None:
-        self.image: pygame.Surface = assets.images.water_gun_p1
+        self.image: pygame.Surface = assets.images.water_gun
         self.shoot_sound: pygame.mixer.Sound = assets.sounds.gun_shoot
         self.move_sound: pygame.mixer.Sound = assets.sounds.move
 
@@ -66,9 +66,59 @@ class BubbleGun(Weapon):
         self.move_sound.play(0)
 
 
-class Gun2(Weapon):
+class DuckGun(Weapon):
     def __init__(self) -> None:
-        self.image: pygame.Surface = assets.images.water_gun_p2
+        self.image: pygame.Surface = assets.images.duck_gun
+        self.shoot_sound: pygame.mixer.Sound = assets.sounds.gun_shoot
+        self.move_sound: pygame.mixer.Sound = assets.sounds.move
+
+        self.v_speed = 600
+        self.r_speed = 80
+
+    def vertical_speed(self) -> int:
+        return self.v_speed
+
+    def rotational_speed(self) -> int:
+        return self.r_speed
+
+    def shoot(self) -> None:
+        self.shoot_sound.set_volume(0.4)
+        self.shoot_sound.play(0)
+
+    def move(self) -> None:
+        self.move_sound.set_volume(0.15)
+        self.move_sound.play(0)
+
+
+
+class FutureGun(Weapon):
+    def __init__(self) -> None:
+        self.image: pygame.Surface = assets.images.future_gun
+        self.shoot_sound: pygame.mixer.Sound = assets.sounds.gun_shoot
+        self.move_sound: pygame.mixer.Sound = assets.sounds.move
+
+        self.v_speed = 600
+        self.r_speed = 80
+
+    def vertical_speed(self) -> int:
+        return self.v_speed
+
+    def rotational_speed(self) -> int:
+        return self.r_speed
+
+    def shoot(self) -> None:
+        self.shoot_sound.set_volume(0.4)
+        self.shoot_sound.play(0)
+
+    def move(self) -> None:
+        self.move_sound.set_volume(0.15)
+        self.move_sound.play(0)
+
+
+
+class BoatGun(Weapon):
+    def __init__(self) -> None:
+        self.image: pygame.Surface = assets.images.boat_gun
         self.shoot_sound: pygame.mixer.Sound = assets.sounds.gun_shoot
         self.move_sound: pygame.mixer.Sound = assets.sounds.move
 

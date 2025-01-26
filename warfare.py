@@ -3,6 +3,7 @@ from screens.home_screen import HomeScreen
 from screens.game_screen import GameScreen
 from screens.pause_screen import PauseScreen
 from screens.game_over_screen import GameOverScreen
+from screens.game_selection_screen import GameSelectionScreen
 from models.player import Player
 from models.bubble import Bubble
 import consts
@@ -31,6 +32,9 @@ class Warfare:
             consts.GAME_OVER_SCREEN: GameOverScreen(
                 self.py_screen, self.width, self.height
             ),
+            consts.GAME_SELECTION_SCREEN: GameSelectionScreen(
+                self.py_screen, self.width, self.height, self.player1, self.player2
+            ),
         }
         self.current_screen = self.screens_map[self.start_screen]
 
@@ -38,5 +42,4 @@ class Warfare:
         self.current_screen.draw(dt)
 
     def update(self):
-        print(self.current_screen)
         self.current_screen = self.screens_map[self.current_screen.update()]

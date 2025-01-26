@@ -16,33 +16,27 @@ class Sounds:
         # shoot sounds
         self.gun_shoot = pygame.mixer.Sound("assets/sounds/gunshooting.wav")
         self.gun_shoot.set_volume(0.1)  # Set volume to 30% of original
-        
+
         # themes
         self.home_theme = pygame.mixer.Sound("assets/sounds/hometheme.wav")
         self.pause_theme = pygame.mixer.Sound("assets/sounds/pausetheme.wav")
+        self.bubble_warfare_background = pygame.mixer.Sound("assets/sounds/hometheme.wav")
 
 class Images:
     def __init__(self) -> None:
         # guns
-        self.water_gun_p1 = pygame.transform.scale(
-            pygame.image.load("assets/images/water_gun.png"), (80, 85)
+        self.boat_gun = pygame.transform.scale(
+            pygame.image.load("assets/images/weapons/boat.png"), (120, 125)
         )
-        self.water_gun_p2 = pygame.transform.scale(
-            pygame.image.load("assets/images/water_gun_reflected.png"), (80, 85)
+        self.duck_gun = pygame.transform.scale(
+            pygame.image.load("assets/images/weapons/duck.png"), (120, 125)
         )
-        self.hoose_p1 = pygame.transform.scale(
-            pygame.image.load("assets/images/water_gun.png"), (80, 85)
+        self.future_gun = pygame.transform.scale(
+            pygame.image.load("assets/images/weapons/future.png"), (130, 135)
         )
-        self.hoose_p2 = pygame.transform.scale(
-            pygame.image.load("assets/images/water_gun_reflected.png"), (80, 85)
+        self.water_gun = pygame.transform.scale(
+            pygame.image.load("assets/images/weapons/water_gun.png"), (120, 125)
         )
-        self.bubble_stick_p1 = pygame.transform.scale(
-            pygame.image.load("assets/images/water_gun.png"), (80, 85)
-        )
-        self.bubble_stick_p2 = pygame.transform.scale(
-            pygame.image.load("assets/images/water_gun_reflected.png"), (80, 85)
-        )
-        
         
         # sprites
         self.water_bubble_sprites = load_sprites(
@@ -65,6 +59,18 @@ class Images:
         )
         self.pause_background = pygame.transform.scale(
             pygame.image.load("assets/images/pause.png"), (consts.SCREEN_WIDTH/2, consts.SCREEN_HEIGHT/2)
+        )
+        self.game_selection_background = pygame.transform.scale(
+            pygame.image.load("assets/images/gameselection.png"), (consts.SCREEN_WIDTH/2, consts.SCREEN_HEIGHT/2)
+        )
+
+
+        # random
+        self.left_arrow = pygame.transform.scale(
+            pygame.image.load("assets/images/selectionarrow_left.png"), (consts.SCREEN_WIDTH/2, consts.SCREEN_HEIGHT/2)
+        )
+        self.right_arrow = pygame.transform.scale(
+            pygame.image.load("assets/images/selectionarrow_right.png"), (consts.SCREEN_WIDTH/2, consts.SCREEN_HEIGHT/2)
         )
 
 

@@ -21,6 +21,10 @@ class Sounds:
         self.home_theme = pygame.mixer.Sound("assets/sounds/hometheme.wav")
         self.pause_theme = pygame.mixer.Sound("assets/sounds/pausetheme.wav")
 
+        #winners
+        self.player_1_wins = pygame.mixer.Sound("assets/sounds/player1-wins.wav")
+        self.player_2_wins = pygame.mixer.Sound("assets/sounds/player2wins.wav")
+
 class Images:
     def __init__(self) -> None:
         # guns

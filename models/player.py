@@ -8,7 +8,7 @@ from models.weapons import Weapon, BubbleGun, Gun2
 
 class Player:
     def __init__(
-        self, gamestate, dir: consts.Direction, x, is_player_one=True, start_angle=0
+            self, gamestate, dir: consts.Direction, x, is_player_one=True, start_angle=0
     ):
         self.gamestate = gamestate
         self.player_bubble: bubble.Bubble | None = None
@@ -61,7 +61,6 @@ class Player:
         up_key = pygame.K_e if self.is_player_one else pygame.K_l
         down_key = pygame.K_r if self.is_player_one else pygame.K_o
 
-
         if keys[up_key]:
             self.rotation_direction = 1
             self.angle = min(45,
@@ -72,7 +71,6 @@ class Player:
             self.angle = max(-45,
                              self.angle
                              + 1 * self.rotation_direction * self.active_weapon().rotational_speed() * dt)
-
 
     def shoot(self):
         keys = pygame.key.get_pressed()

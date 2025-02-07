@@ -38,8 +38,8 @@ class Player:
 
     def move(self, dt):
         keys = pygame.key.get_pressed()
-        up_key = pygame.K_w if self.is_player_one else pygame.K_i
-        down_key = pygame.K_z if self.is_player_one else pygame.K_m
+        up_key = pygame.K_w if self.is_player_one else pygame.K_UP
+        down_key = pygame.K_s if self.is_player_one else pygame.K_DOWN
 
         was_moving = self.is_moving
         self.is_moving = keys[up_key] or keys[down_key]
@@ -55,10 +55,35 @@ class Player:
                 self.y + self.active_weapon().vertical_speed() * dt,
             )
 
+    def rotate(self, dt: float):
+        keys = pygame.key.get_pressed()
+        up_key = pygame.K_e if self.is_player_one else pygame.K_i
+        down_key = pygame.K_r if self.is_player_one else pygame.K_o
+
+        if keys[up_key]:
+            self.rotation_direction = 1
+            self.angle = min(
+                45,
+                self.angle
+                + 1
+                * self.rotation_direction
+                * self.active_weapon().rotational_speed()
+                * dt,
+                )
+        if keys[down_key]:
+            self.rotation_direction = -1
+            self.angle = max(
+                -45,
+                self.angle
+                + 1
+                * self.rotation_direction
+                * self.active_weapon().rotational_speed()
+                * dt,
+                )
     def shoot(self):
         keys = pygame.key.get_pressed()
-        shoot_key = pygame.K_s if self.is_player_one else pygame.K_j
-        change_bubble_key = pygame.K_a if self.is_player_one else pygame.K_k
+        shoot_key = pygame.K_d if self.is_player_one else pygame.K_LEFT
+        change_bubble_key = pygame.K_a if self.is_player_one else pygame.K_RIGHT
         bubble_spawn_pos = (
             consts.PADDING + consts.CANNON_WIDTH
             if self.is_player_one
@@ -97,6 +122,7 @@ class Player:
 
     def update(self, dt):
         self.move(dt)
+        self.rotate(dt)
 
     def active_weapon(self) -> Weapon:
         return self.weapons[self.selected_weapon]
